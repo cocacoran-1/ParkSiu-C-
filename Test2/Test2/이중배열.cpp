@@ -85,8 +85,7 @@ void main()
 				cin >> line.y[i];
 				cout << "점 " << i + 1 << " [" << line.x[i] << "," << line.y[i] << "]" << endl;
 			}
-
-			
+			// y 좌표가 같을 때
 			if (line.y[0] == line.y[1])
 			{
 				if (line.x[0] > line.x[1])
@@ -104,6 +103,7 @@ void main()
 					}
 				}
 			}
+			// x 좌표가 같을 때
 			else if (line.x[0] == line.y[1])
 			{
 				if (line.y[0] > line.y[1])
@@ -121,9 +121,10 @@ void main()
 					}
 				}
 			}
+			// 같은 좌표가 없을 때
 			else
 			{
-				if (line.y[1] > line.x[1] && line.y[0] > line.y[1])
+				if (line.x[0] > line.x[1] && line.y[0] > line.y[1])
 				{
 					for (int i = line.x[1]; i < line.x[0]; i++)
 					{
@@ -159,82 +160,55 @@ void main()
 			break;
 		case eDrawType::DRAWTYPE_Rect:
 			Rect rect;
+			
 			for (int i = 0; i < 4; i++)
 			{
-				cout << "점 "<< i+1 <<"의 x 좌표를 입력해주세요.";
+				cout << "점 " << i + 1 << "의 x 좌표를 입력해주세요.";
 				cin >> rect.x[i];
 				cout << "점 " << i + 1 << "의 y 좌표를 입력해주세요.";
 				cin >> rect.y[i];
 				cout << "점 " << i + 1 << " [" << rect.x[i] << "," << rect.y[i] << "]" << endl;
+				board[rect.x[i]][rect.y[i]] = 'R';
+				cout << board[rect.x[i]][rect.y[i]];
 			}
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 4; i++)
 			{
-				if (rect.y[i] == rect.y[i+1])
+				for (int j = 0; j < 4; j++)
 				{
-					if (rect.x[i] > rect.x[i+1])
+					// x 좌표가 같을 때
+					if (rect.x[i] == rect.x[j] && rect.y[i] != rect.y[j])
 					{
-						for (int j = rect.x[i+1]; j < rect.x[i]; j++)
+						if (rect.y[i] > rect.y[j])
 						{
-							board[rect.y[i]][j] = 'L';
+							for (int k = rect.y[j]; k < rect.y[i]; k++)
+							{
+								board[k][rect.x[i]] = 'R';
+							}	
+						}
+						else
+						{
+							for (int k = rect.y[i]; k < rect.y[j]; k++)
+							{
+								board[k][rect.x[i]] = 'R';
+							}
 						}
 					}
-					else if (rect.x[i] < rect.x[i+1])
+					// y 좌표가 같을 때
+					else if (rect.y[i] == rect.y[j] && rect.x[i] != rect.x[j])
 					{
-						for (int j = rect.x[i]; j < rect.x[i+1]; j++)
+						if (rect.x[i] > rect.x[j])
 						{
-							board[rect.y[i]][j] = 'L';
+							for (int k = rect.x[j]; k < rect.x[i]; k++)
+							{
+								board[rect.y[i]][k] = 'R';
+							}
 						}
-					}
-				}
-				else if (rect.x[i] == rect.y[i+1])
-				{
-					if (rect.y[i] > rect.y[i+1])
-					{
-						for (int j = rect.y[i+1]; j < rect.y[i]; j++)
+						else
 						{
-							board[j][rect.x[i]] = 'L';
-						}
-					}
-					else if (rect.y[i] < rect.y[i+1])
-					{
-						for (int j = rect.y[i]; j < rect.y[i+1]; j++)
-						{
-							board[j][rect.x[i]] = 'L';
-						}
-					}
-				}
-				else
-				{
-					if (rect.y[i+1] > rect.x[i+1] && rect.y[i] > rect.y[i+1])
-					{
-						for (int j = rect.x[i+1]; j < rect.x[i]; j++)
-						{
-							board[rect.y[i+1] + rect.num][j + 1] = 'L';
-							rect.num++;
-						}
-					}
-					else if (rect.x[i+1] > rect.x[i] && rect.y[i+1] > rect.y[i])
-					{
-						for (int j = rect.x[i]; j < rect.x[i+1]; j++)
-						{
-							board[rect.y[i] + rect.num][j + 1] = 'L';
-							rect.num++;
-						}
-					}
-					else if (rect.x[i+1] > rect.x[i] && rect.y[i+1] < rect.y[i])
-					{
-						for (int j = rect.x[i]; j < rect.x[i+1]; j++)
-						{
-							board[rect.y[i+1] + rect.num][j + 1] = 'L';
-							rect.num++;
-						}
-					}
-					else if (rect.x[i+1] < rect.x[i] && rect.y[i+1] > rect.y[i])
-					{
-						for (int j = rect.x[i+1]; j < rect.x[i]; j++)
-						{
-							board[rect.y[i+1] - rect.num][j + 1] = 'L';
-							rect.num++;
+							for (int k = rect.x[i]; k < rect.x[j]; k++)
+							{
+								board[rect.y[i]][k] = 'R';
+							}
 						}
 					}
 				}
