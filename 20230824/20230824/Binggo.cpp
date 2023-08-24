@@ -16,50 +16,53 @@ struct Unit
 	char Binggo[25];
 	int binggoLine;
 	bool isPlayer;
+	void shuffle(char binggo[])
+	{
+		for (int i = 0; i < 25; i++)
+		{
+			char str = '0' + i + 1;
+			binggo[i] = str;
+		}
+		for (int i = 0; i < 10000; i++)
+		{
+			int rand1 = rand() % 25;
+			int rand2 = rand() % 25;
+			int temp = binggo[rand1];
+			binggo[rand1] = binggo[rand2];
+			binggo[rand2] = temp;
+		}
+	}
+	void showBinggo(char binggo[])
+	{
+		int num = 1;
+
+		for (int i = 0; i < 25; i++)
+		{
+			cout << binggo[i] << "\t";
+			if (num == 5)
+			{
+				cout << endl;
+				num = 0;
+			}
+			num++;
+		}
+	}
 };
 
-void shuffle(char binggo[])
-{
-	for (int i = 0; i < 25; i++)
-	{
-		binggo[i] = i + 1;
-	}
-	for (int i = 0; i < 10000; i++)
-	{
-		int rand1 = rand() % 25;
-		int rand2 = rand() % 25;
-		int temp = binggo[rand1];
-		binggo[rand1] = binggo[rand2];
-		binggo[rand2] = temp;
-	}
-}
-void showBinggo(char binggo[])
-{
-	int num = 1;
-	
-	for (int i = 0; i < 25; i++)
-	{
-		cout << binggo[i] << "\t";
-		if (num == 5)
-		{
-			cout << endl;
-			num = 0;
-		}
-		num++;
-	}
-}
+
+
 
 void numInput(char myBinggo[], char comBinggo[], char input[], int& playTime, bool isPlayer)
 {
 	if (isPlayer)
 	{
-		cout << "\t\t[플레이어 차례]" << endl;
+		cout << "\t[플레이어 차례]" << endl;
 		cout << "1~25까지의 숫자 중 하나를 선택해주세요" << endl;
 		cin >> input[playTime];
 	}
 	else
 	{
-		cout << "\t\t[컴퓨터 차례]" << endl;
+		cout << "\t[컴퓨터 차례]" << endl;
 		input[playTime] = rand() % 25 + 1;
 		cout << "컴퓨터 선택 : " << input[playTime];
 
@@ -134,21 +137,21 @@ void main()
 	system("cls");
 
 	cout << "\t  플레이어 빙고" << endl;
-	shuffle(my.Binggo);
-	showBinggo(my.Binggo);
+	my.shuffle(my.Binggo);
+	my.showBinggo(my.Binggo);
 	cout << endl;
 	cout << "\t   컴퓨터 빙고" << endl;
-	shuffle(com.Binggo);
-	showBinggo(com.Binggo);
+	com.shuffle(com.Binggo);
+	com.showBinggo(com.Binggo);
 
 	do
 	{
 		numInput(my.Binggo, com.Binggo, Input, playTime,my.isPlayer);
-		showBinggo(my.Binggo);
-		showBinggo(com.Binggo);
+		my.showBinggo(my.Binggo);
+		com.showBinggo(com.Binggo);
 		numInput(my.Binggo, com.Binggo, Input, playTime, com.isPlayer);
-		showBinggo(my.Binggo);
-		showBinggo(com.Binggo);
+		my.showBinggo(my.Binggo);
+		com.showBinggo(com.Binggo);
 		checkBinggo(my.Binggo, my.binggoLine);
 		checkBinggo(com.Binggo, com.binggoLine);
 		if (my.binggoLine == 3)
