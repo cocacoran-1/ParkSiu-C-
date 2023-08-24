@@ -13,16 +13,19 @@ using namespace std;
 
 struct Unit
 {
-	char Binggo[25];
+	int Binggo[25];
 	int binggoLine;
 	bool isPlayer;
-	void shuffle(char binggo[])
+
+	void init()
 	{
 		for (int i = 0; i < 25; i++)
 		{
-			char str = '0' + i + 1;
-			binggo[i] = str;
+			Binggo[i] = i+1;
 		}
+	}
+	void shuffle(int binggo[])
+	{
 		for (int i = 0; i < 10000; i++)
 		{
 			int rand1 = rand() % 25;
@@ -32,13 +35,33 @@ struct Unit
 			binggo[rand2] = temp;
 		}
 	}
-	void showBinggo(char binggo[])
+	void showBinggo(int binggo[], int input[])
 	{
 		int num = 1;
-
+		bool isSame = false;
 		for (int i = 0; i < 25; i++)
 		{
-			cout << binggo[i] << "\t";
+			for (int j = 0; j < 25; j++)
+			{
+				if (binggo[i] == input[j])
+				{
+					isSame = true;
+					break;
+				}
+				else
+				{
+					isSame = false;
+				}
+			}
+			if (isSame)
+			{
+				cout << "#\t";
+			}
+			else
+			{
+				cout << binggo[i] << "\t";
+			}
+		
 			if (num == 5)
 			{
 				cout << endl;
@@ -49,41 +72,25 @@ struct Unit
 	}
 };
 
-
-
-
-void numInput(char myBinggo[], char comBinggo[], char input[], int& playTime, bool isPlayer)
+void numInput(int myBinggo[], int comBinggo[], int input[], int& playTime, bool isPlayer)
 {
 	if (isPlayer)
 	{
 		cout << "\t[플레이어 차례]" << endl;
 		cout << "1~25까지의 숫자 중 하나를 선택해주세요" << endl;
 		cin >> input[playTime];
+		cout << "플레이어 선택 : " << input[playTime] << endl;
 	}
 	else
 	{
 		cout << "\t[컴퓨터 차례]" << endl;
 		input[playTime] = rand() % 25 + 1;
-		cout << "컴퓨터 선택 : " << input[playTime];
-
+		cout << "컴퓨터 선택 : " << input[playTime] << endl;
 	}
-	
-	for (int i = 0; i < 25; i++)
-	{
-		if (myBinggo[i] == input[playTime])
-		{
-			myBinggo[i] = '#';
-		}
 
-		if (comBinggo[i] == input[playTime])
-		{
-			comBinggo[i] = '#';
-		}
-	}
-	int num = 1;
 	playTime++;
 }
-void checkBinggo(char binggo[], int& binggoLine)
+void checkBinggo(int binggo[], int& binggoLine, int input[])
 {
 	
 	// 세로 확인
@@ -92,10 +99,14 @@ void checkBinggo(char binggo[], int& binggoLine)
 		int same = 0;
 		for (int j = 0; j < 5; j++)
 		{
-			if (binggo[i + j * 5] == '#')
+			for (int k = 0; k < 25; k++)
 			{
-				same++;
+				if (binggo[i + j * 5] == input[k])
+				{
+					same++;
+				}
 			}
+			
 		}
 		if (same == 5)
 		{
@@ -128,32 +139,35 @@ void main()
 	my.binggoLine = 0;
 	com.isPlayer = false;
 	com.binggoLine = 0;
-	char Input[25] = {};
+	int Input[25] = {};
 	int playTime =0;
 	bool isBinggo = false;
 
 	srand(time(NULL));
 
 	system("cls");
+	
 
 	cout << "\t  플레이어 빙고" << endl;
+	my.init();
 	my.shuffle(my.Binggo);
-	my.showBinggo(my.Binggo);
+	my.showBinggo(my.Binggo, Input);
 	cout << endl;
 	cout << "\t   컴퓨터 빙고" << endl;
+	com.init();
 	com.shuffle(com.Binggo);
-	com.showBinggo(com.Binggo);
+	com.showBinggo(com.Binggo, Input);
 
 	do
 	{
 		numInput(my.Binggo, com.Binggo, Input, playTime,my.isPlayer);
-		my.showBinggo(my.Binggo);
-		com.showBinggo(com.Binggo);
+		my.showBinggo(my.Binggo,Input);
+		com.showBinggo(com.Binggo,Input);
 		numInput(my.Binggo, com.Binggo, Input, playTime, com.isPlayer);
-		my.showBinggo(my.Binggo);
-		com.showBinggo(com.Binggo);
-		checkBinggo(my.Binggo, my.binggoLine);
-		checkBinggo(com.Binggo, com.binggoLine);
+		my.showBinggo(my.Binggo,Input);
+		com.showBinggo(com.Binggo,Input);
+		checkBinggo(my.Binggo, my.binggoLine, Input);
+		checkBinggo(com.Binggo, com.binggoLine, Input);
 		if (my.binggoLine == 3)
 		{
 			cout << "\t\t플레이어 승리!!!";
