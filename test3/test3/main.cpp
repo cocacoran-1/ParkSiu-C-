@@ -28,85 +28,12 @@ int _betMoney = 100;
 	- 동시에 파산 시 무승부
 	- 카드 개수 만큼 게임을 진행하고 마지막 소지금을 비교해서 승패 정한다
 */
-struct Unit
-{
-	int money;
-	char choice;
-	bool betOrNot;
-	bool isPlayer;
-	
-	bool isBet()
-	{
-		
-		if (isPlayer)
-		{
-			char select = '\0';
-			cout << "베팅을 하시겠습니까? (Yes : Y , No : N)" << endl;
-			cin >> select;
-			if (select == 'Y' || select == 'y')
-			{
-				cout << "[베팅한다]" << endl;
-				this->money -= _betMoney;
-				return true;
-			}
-			else if (select == 'N' || select == 'n')
-			{
-				cout << "[베팅 안한다]" << endl;
-				return false;
-			}
-		}
-		else
-		{
-			int random = rand() % 2;
-			if (random == 0)
-			{
-				cout << "컴퓨터 : [베팅한다]" << endl;
-				this->money -= _betMoney;
-				return true;
-			}
-			else if (random == 1)
-			{
-				cout << "컴퓨터 : [베팅 안한다]" << endl;
-				return false;
-			}
-		}
-	}
-	void selectHighLowSeven()
-	{
-		if (isBet())
-		{
-			if (isPlayer)
-			{
-				cout << "High or Low or Seven (High : H, Low : L, Seven : S)" << endl;
-				cin >> choice;
-			}
-			else
-			{
-				int random = rand() % 3;
-				if (random == 0)
-				{
-					choice = 'H';
-				}
-				else if (random == 1)
-				{
-					choice = 'L';
-				}
-				else if (random == 2)
-				{
-					choice = 'H';
-				}
-			}
-		}
-		else
-		{
 
-		}
-	}
-};
 
 struct Card
 {
 	int card[CARDSIZE];
+	int current;
 
 	void init()
 	{
@@ -155,6 +82,211 @@ struct Card
 			break;
 		}
 	}
+	bool gameEnd()
+	{
+		if (current == 52)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+};
+struct Unit
+{
+	Card card;
+	int money;
+	char choice;
+	bool betOrNot;
+	bool isPlayer;
+
+	bool isBet()
+	{
+
+		if (isPlayer)
+		{
+			char select = '\0';
+			cout << "베팅을 하시겠습니까? (Yes : Y , No : N)" << endl;
+			cin >> select;
+			if (select == 'Y' || select == 'y')
+			{
+				cout << "[베팅한다]" << endl;
+				this->money -= _betMoney;
+				return true;
+			}
+			else if (select == 'N' || select == 'n')
+			{
+				cout << "[베팅 안한다]" << endl;
+				return false;
+			}
+		}
+		else
+		{
+			int random = rand() % 2;
+			if (random == 0)
+			{
+				cout << "컴퓨터 : [베팅한다]" << endl;
+				this->money -= _betMoney;
+				return true;
+			}
+			else if (random == 1)
+			{
+				cout << "컴퓨터 : [베팅 안한다]" << endl;
+				return false;
+			}
+		}
+	}
+	void selectHighLowSeven()
+	{
+		if (isBet())
+		{
+			if (isPlayer)
+			{
+				cout << "High or Low or Seven (High : H, Low : L, Seven : S)" << endl;
+				cin >> choice;
+				if (choice == 'h')
+				{
+					choice == 'H';
+				}
+				else if (choice == 'l')
+				{
+					choice == 'L';
+				}
+				else if (choice == 's')
+				{
+					choice == 'S';
+				}
+			}
+			else
+			{
+				int random = rand() % 3;
+				if (random == 0)
+				{
+					choice = 'H';
+				}
+				else if (random == 1)
+				{
+					choice = 'L';
+				}
+				else if (random == 2)
+				{
+					choice = 'S';
+				}
+			}
+		}
+	}
+	void compare(int card)
+	{
+		if (isPlayer)
+		{
+			// High
+			if (choice == 'H')
+			{
+				if (card > 7)
+				{
+					cout << "[플레이어 성공!!!]" << endl;
+					money += 2 * _betMoney;
+				}
+				else
+				{
+					cout << "[플레이어 실패...]" << endl;
+				}
+			}
+			// Low
+			if (choice == 'L')
+			{
+				if (7 > card)
+				{
+					cout << "[플레이어 성공!!!]" << endl;
+					money += 2 * _betMoney;
+				}
+				else
+				{
+					cout << "[플레이어 실패...]" << endl;
+				}
+			}
+			// Seven
+			if (choice == 'S')
+			{
+				if (card == 7)
+				{
+					cout << "[플레이어 성공!!!]" << endl;
+					money += 2 * _betMoney;
+				}
+				else
+				{
+					cout << "[플레이어 실패...]" << endl;
+				}
+			}
+		}
+		else
+		{
+			// High
+			if (choice == 'H')
+			{
+				if (card > 7)
+				{
+					cout << "[컴퓨터 성공!!!]" << endl;
+					money += 2 * _betMoney;
+				}
+				else
+				{
+					cout << "[컴퓨터 실패...]" << endl;
+				}
+			}
+			// Low
+			if (choice == 'L')
+			{
+				if (7 > card)
+				{
+					cout << "[컴퓨터 성공!!!]" << endl;
+					money += 2 * _betMoney;
+				}
+				else
+				{
+					cout << "[컴퓨터 실패...]" << endl;
+				}
+			}
+			// Seven
+			if (choice == 'S')
+			{
+				if (card == 7)
+				{
+					cout << "[컴퓨터 성공!!!]" << endl;
+					money += 2 * _betMoney;
+				}
+				else
+				{
+					cout << "[컴퓨터 실패...]" << endl;
+				}
+			}
+		}
+		
+	}
+	void checkResult(bool isEnd)
+	{
+		isEnd = false;
+		if (isPlayer)
+		{
+			if (money == 0)
+			{
+				cout << "[파산했습니다...]" << endl;
+				cout << "[플레이어 패배...]" << endl;
+				isEnd = true;
+			}
+		}
+		else
+		{
+			if (money == 0)
+			{
+				cout << "[상대가 파산했습니다!!!]" << endl;
+				cout << "[플레이어 승리!!!]" << endl;
+				isEnd = true;
+			}
+		}
+	}
 };
 
 void Gotoxy(int x, int y)
@@ -187,4 +319,41 @@ void main()
 	Card card;
 	Unit player = { 1000,0,false,true };
 	Unit computer = { 1000,0,false,false };
+	bool isEnd = false;
+
+	do
+	{
+		isEnd == card.gameEnd();
+		// 컴퓨터 플레이어 배팅여부 선택
+		player.isBet();
+		computer.isBet();
+		// 컴퓨터 플레이어 배팅시 하이로우세븐 선택
+		player.selectHighLowSeven();
+		computer.selectHighLowSeven();
+		// 컴퓨터 플레이어 선택과 카드 비교
+		player.compare(card.card[card.current]);
+		computer.compare(card.card[card.current]);
+		// 소지금에 따라 승패나타내기
+		player.checkResult(isEnd);
+		computer.checkResult(isEnd);
+
+	} while (!isEnd);
+
+	if (player.money > computer.money)
+	{
+		cout << "플레이어 소지금 : " << player.money << "\t컴퓨터 소지금 :" << computer.money << endl;
+		cout << "[컴퓨터 패배!!!]" << endl;
+		cout << "[플레이어 승리!!!]";
+	}
+	else if (computer.money > player.money)
+	{
+		cout << "플레이어 소지금 : " << player.money << "\t컴퓨터 소지금 :" << computer.money << endl;
+		cout << "[컴퓨터 승리...]" << endl;
+		cout << "[플레이어 패배...]";
+	}
+	else
+	{
+		cout << "플레이어 소지금 : " << player.money << "\t컴퓨터 소지금 :" << computer.money << endl;
+		cout << "[무 승 부]";
+	}
 }
