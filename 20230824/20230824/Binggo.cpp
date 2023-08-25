@@ -1,8 +1,10 @@
 #include <iostream>
 #include<time.h>
 #include<Windows.h>
+#define BINGO_SIZE 5
+#define BOARD_SIZE (BINGO_SIZE * BINGO_SIZE)
 
-int _input[25] = {};
+int _input[BOARD_SIZE] = {};
 int playTime = 0;
 using namespace std;
 /*
@@ -15,13 +17,13 @@ using namespace std;
 
 struct Unit
 {
-	int Binggo[25];
+	int Binggo[BOARD_SIZE];
 	int binggoLine;
 	bool isPlayer;
 
 	void init()
 	{
-		for (int i = 0; i < 25; i++)
+		for (int i = 0; i < BOARD_SIZE; i++)
 		{
 			Binggo[i] = i + 1;
 		}
@@ -30,8 +32,8 @@ struct Unit
 	{
 		for (int i = 0; i < 10000; i++)
 		{
-			int rand1 = rand() % 25;
-			int rand2 = rand() % 25;
+			int rand1 = rand() % BOARD_SIZE;
+			int rand2 = rand() % BOARD_SIZE;
 			int temp = Binggo[rand1];
 			Binggo[rand1] = Binggo[rand2];
 			Binggo[rand2] = temp;
@@ -41,10 +43,10 @@ struct Unit
 	{
 		int num = 1;
 
-		for (int i = 0; i < 25; i++)
+		for (int i = 0; i < BOARD_SIZE; i++)
 		{
 			bool isSame = false;
-			for (int j = 0; j < 25; j++)
+			for (int j = 0; j < BOARD_SIZE; j++)
 			{
 				if (Binggo[i] == _input[j])
 				{
@@ -71,71 +73,71 @@ struct Unit
 	void checkBinggo()
 	{
 		// 세로 확인
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < BINGO_SIZE; i++)
 		{
 			int same = 0;
-			for (int j = 0; j < 5; j++)
+			for (int j = 0; j < BINGO_SIZE; j++)
 			{
-				for (int k = 0; k < 25; k++)
+				for (int k = 0; k < BOARD_SIZE; k++)
 				{
-					if (Binggo[i + j * 5] == _input[k])
+					if (Binggo[i + j * BINGO_SIZE] == _input[k])
 					{
 						same++;
 					}
 				}
 
 			}
-			if (same == 5)
+			if (same == BINGO_SIZE)
 			{
 				binggoLine++;
 			}
 		}
 		//가로 확인
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < BINGO_SIZE; i++)
 		{
 			int same = 0;
-			for (int j = 0; j < 5; j++)
+			for (int j = 0; j < BINGO_SIZE; j++)
 			{
-				for (int k = 0; k < 25; k++)
+				for (int k = 0; k < BOARD_SIZE; k++)
 				{
-					if (Binggo[i * 5 + j] == _input[k])
+					if (Binggo[i * BINGO_SIZE + j] == _input[k])
 					{
 						same++;
 					}
 				}
 			}
-			if (same == 5)
+			if (same == BINGO_SIZE)
 			{
 				binggoLine++;
 			}
 		}
 		// 대각선 확인
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < BINGO_SIZE; i++)
 		{
 			int same = 0;
-			for (int j = 0; j < 25; j++)
+			for (int j = 0; j < BOARD_SIZE; j++)
 			{
 				if (Binggo[i * 6] == _input[j])
 				{
 					same++;
 				}
 			}
-			if (same == 5)
+			if (same == BINGO_SIZE)
 			{
 				binggoLine++;
 			}
 		}
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < BINGO_SIZE; i++)
 		{
 			int same = 0;
-			for (int j = 0; j < 25; j++)
+			for (int j = 0; j < BOARD_SIZE; j++)
 			{
 				if (Binggo[i * 4] == _input[j])
 				{
 					same++;
 				}
 			}
-			if (same == 5)
+			if (same == BINGO_SIZE)
 			{
 				binggoLine++;
 			}
@@ -153,7 +155,7 @@ struct Unit
 				cin >> _input[playTime];
 				cout << "플레이어 선택 : " << _input[playTime] << endl << endl;
 
-				for (int i = 0; i < 25; i++)
+				for (int i = 0; i < BOARD_SIZE; i++)
 				{
 					if (i != playTime)
 					{
@@ -177,9 +179,9 @@ struct Unit
 
 			while (isSame)
 			{
-				_input[playTime] = rand() % 25 + 1;
+				_input[playTime] = rand() % BOARD_SIZE + 1;
 				isSame = false;
-				for (int i = 0; i < 25; i++)
+				for (int i = 0; i < BOARD_SIZE; i++)
 				{
 					if (i != playTime)
 					{
