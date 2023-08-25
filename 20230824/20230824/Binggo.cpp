@@ -109,6 +109,37 @@ struct Unit
 				binggoLine++;
 			}
 		}
+		// 대각선 확인
+		for (int i = 0; i < 5; i++)
+		{
+			int same = 0;
+			for (int j = 0; j < 25; j++)
+			{
+				if (Binggo[i * 6] == _input[j])
+				{
+					same++;
+				}
+			}
+			if (same == 5)
+			{
+				binggoLine++;
+			}
+		}
+		for (int i = 0; i < 5; i++)
+		{
+			int same = 0;
+			for (int j = 0; j < 25; j++)
+			{
+				if (Binggo[i * 4] == _input[j])
+				{
+					same++;
+				}
+			}
+			if (same == 5)
+			{
+				binggoLine++;
+			}
+		}
 	}
 	void numInput()
 	{
