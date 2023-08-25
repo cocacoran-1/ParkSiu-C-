@@ -3,6 +3,7 @@
 #include<Windows.h>
 
 int _input[25] = {};
+int playTime = 0;
 using namespace std;
 /*
 	빙고 게임
@@ -109,7 +110,7 @@ struct Unit
 			}
 		}
 	}
-	void numInput(int& playTime)
+	void numInput()
 	{
 		bool isSame = true;
 		if (isPlayer)
@@ -179,7 +180,6 @@ void main()
 	com.isPlayer = false;
 	com.binggoLine = 0;
 
-	int playTime = 0;
 	bool isBinggo = false;
 
 	srand(time(NULL));
@@ -198,13 +198,13 @@ void main()
 
 	do
 	{
-		my.numInput(playTime);
+		my.numInput();
 		cout << "\t  플레이어 빙고" << endl;
 		my.showBinggo();
 		cout << endl << "\t   컴퓨터 빙고" << endl;
 		com.showBinggo();
 
-		com.numInput(playTime);
+		com.numInput();
 		cout << "\t  플레이어 빙고" << endl;
 		my.showBinggo();
 		cout << endl << "\t   컴퓨터 빙고" << endl;
