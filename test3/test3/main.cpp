@@ -37,6 +37,7 @@ struct Card
 
 	void init()
 	{
+		current = 0;
 		// 카드에 숫자 부여
 		for (int i = 0; i < CARDSIZE; i++)
 		{
@@ -84,7 +85,7 @@ struct Card
 	}
 	bool gameEnd()
 	{
-		if (current == 52)
+		if (current == 51)
 		{
 			return true;
 		}
@@ -96,15 +97,14 @@ struct Card
 };
 struct Unit
 {
-	Card card;
 	int money;
-	char choice;
-	bool betOrNot;
 	bool isPlayer;
+	char choice;
+	Card card;
+	bool isBet;
 
-	bool isBet()
+	void BetOrNot()
 	{
-
 		if (isPlayer)
 		{
 			char select = '\0';
@@ -112,35 +112,35 @@ struct Unit
 			cin >> select;
 			if (select == 'Y' || select == 'y')
 			{
-				cout << "[베팅한다]" << endl;
-				this->money -= _betMoney;
-				return true;
+				cout << "플레이어 : [베팅한다]" << endl;
+				money -= _betMoney;
+				isBet = true;
 			}
 			else if (select == 'N' || select == 'n')
 			{
-				cout << "[베팅 안한다]" << endl;
-				return false;
+				cout << "플레이어 : [베팅 안한다]" << endl;
+				isBet = false;
 			}
 		}
-		else
+		else if(!isPlayer)
 		{
 			int random = rand() % 2;
 			if (random == 0)
 			{
 				cout << "컴퓨터 : [베팅한다]" << endl;
-				this->money -= _betMoney;
-				return true;
+				money -= _betMoney;
+				isBet = true;
 			}
 			else if (random == 1)
 			{
 				cout << "컴퓨터 : [베팅 안한다]" << endl;
-				return false;
+				isBet = false;
 			}
 		}
 	}
 	void selectHighLowSeven()
 	{
-		if (isBet())
+		if (isBet)
 		{
 			if (isPlayer)
 			{
@@ -148,15 +148,15 @@ struct Unit
 				cin >> choice;
 				if (choice == 'h')
 				{
-					choice == 'H';
+					choice = 'H';
 				}
 				else if (choice == 'l')
 				{
-					choice == 'L';
+					choice = 'L';
 				}
 				else if (choice == 's')
 				{
-					choice == 'S';
+					choice = 'S';
 				}
 			}
 			else
@@ -228,12 +228,12 @@ struct Unit
 			{
 				if (card > 7)
 				{
-					cout << "[컴퓨터 성공!!!]" << endl;
+					cout << "[컴퓨터 성공...]" << endl;
 					money += 2 * _betMoney;
 				}
 				else
 				{
-					cout << "[컴퓨터 실패...]" << endl;
+					cout << "[컴퓨터 실패!!!]" << endl;
 				}
 			}
 			// Low
@@ -241,12 +241,12 @@ struct Unit
 			{
 				if (7 > card)
 				{
-					cout << "[컴퓨터 성공!!!]" << endl;
+					cout << "[컴퓨터 성공...]" << endl;
 					money += 2 * _betMoney;
 				}
 				else
 				{
-					cout << "[컴퓨터 실패...]" << endl;
+					cout << "[컴퓨터 실패!!!]" << endl;
 				}
 			}
 			// Seven
@@ -254,16 +254,15 @@ struct Unit
 			{
 				if (card == 7)
 				{
-					cout << "[컴퓨터 성공!!!]" << endl;
+					cout << "[컴퓨터 성공...]" << endl;
 					money += 2 * _betMoney;
 				}
 				else
 				{
-					cout << "[컴퓨터 실패...]" << endl;
+					cout << "[컴퓨터 실패!!!]" << endl;
 				}
 			}
 		}
-		
 	}
 	void checkResult(bool isEnd)
 	{
@@ -317,43 +316,52 @@ void main()
 {
 	srand(time(NULL));
 	Card card;
-	Unit player = { 1000,0,false,true };
-	Unit computer = { 1000,0,false,false };
+	Unit player;
+	player.isPlayer = true;
+	player.isBet = false;
+	player.money = 1000;
+	Unit computer;
+	computer.isPlayer = false;
+	computer.isBet = false;
+	computer.money = 1000;
+
 	bool isEnd = false;
 
-	do
+	card.init();
+
+	while (!isEnd)
 	{
-		isEnd == card.gameEnd();
+		cout << "\t\t[GAME\t" << card.current+1 << "]" << endl;
+		isEnd = card.gameEnd();
 		// 컴퓨터 플레이어 배팅여부 선택
-		player.isBet();
-		computer.isBet();
+		player.BetOrNot();
+		computer.BetOrNot();
 		// 컴퓨터 플레이어 배팅시 하이로우세븐 선택
 		player.selectHighLowSeven();
 		computer.selectHighLowSeven();
 		// 컴퓨터 플레이어 선택과 카드 비교
 		player.compare(card.card[card.current]);
 		computer.compare(card.card[card.current]);
+		cout << "플레이어 소지금 : " << player.money << "\t컴퓨터 소지금 :" << computer.money << endl;
 		// 소지금에 따라 승패나타내기
 		player.checkResult(isEnd);
 		computer.checkResult(isEnd);
-
-	} while (!isEnd);
+		card.current++;
+	} 
 
 	if (player.money > computer.money)
 	{
-		cout << "플레이어 소지금 : " << player.money << "\t컴퓨터 소지금 :" << computer.money << endl;
-		cout << "[컴퓨터 패배!!!]" << endl;
-		cout << "[플레이어 승리!!!]";
+		cout << "\t\t{최종 승리}" << endl;
+		cout << "[컴퓨터 패배!!!]" << "[플레이어 승리!!!]";
 	}
 	else if (computer.money > player.money)
 	{
-		cout << "플레이어 소지금 : " << player.money << "\t컴퓨터 소지금 :" << computer.money << endl;
-		cout << "[컴퓨터 승리...]" << endl;
-		cout << "[플레이어 패배...]";
+		cout << "\t\t{최종 승리}" << endl;
+		cout << "\t[컴퓨터 승리...]" << "[플레이어 패배...]";
 	}
 	else
 	{
-		cout << "플레이어 소지금 : " << player.money << "\t컴퓨터 소지금 :" << computer.money << endl;
-		cout << "[무 승 부]";
+		cout << "\t\t{최종 승리}" << endl;
+		cout << "\t[무 승 부]";
 	}
 }
