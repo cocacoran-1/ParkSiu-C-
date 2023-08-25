@@ -31,7 +31,7 @@ int _betMoney = 100;
 struct Unit
 {
 	int money;
-	int choice;
+	char choice;
 	bool betOrNot;
 	bool isPlayer;
 	
@@ -46,6 +46,7 @@ struct Unit
 			if (select == 'Y' || select == 'y')
 			{
 				cout << "[베팅한다]" << endl;
+				this->money -= _betMoney;
 				return true;
 			}
 			else if (select == 'N' || select == 'n')
@@ -60,6 +61,7 @@ struct Unit
 			if (random == 0)
 			{
 				cout << "컴퓨터 : [베팅한다]" << endl;
+				this->money -= _betMoney;
 				return true;
 			}
 			else if (random == 1)
@@ -67,6 +69,37 @@ struct Unit
 				cout << "컴퓨터 : [베팅 안한다]" << endl;
 				return false;
 			}
+		}
+	}
+	void selectHighLowSeven()
+	{
+		if (isBet())
+		{
+			if (isPlayer)
+			{
+				cout << "High or Low or Seven (High : H, Low : L, Seven : S)" << endl;
+				cin >> choice;
+			}
+			else
+			{
+				int random = rand() % 3;
+				if (random == 0)
+				{
+					choice = 'H';
+				}
+				else if (random == 1)
+				{
+					choice = 'L';
+				}
+				else if (random == 2)
+				{
+					choice = 'H';
+				}
+			}
+		}
+		else
+		{
+
 		}
 	}
 };
