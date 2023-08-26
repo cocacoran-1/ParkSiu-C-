@@ -164,7 +164,7 @@ struct Card
 			cout << " 弛                                    弛";
 		}
 		Gotoxy(x, y++);
-		cout << " 弛                 " << suit << "                 弛";
+		cout << " 弛                  " << suit << "                弛";
 		for (int i = 0; i < 13; i++)
 		{
 			Gotoxy(x, y++);
@@ -597,14 +597,14 @@ struct Unit
 					Gotoxy(x, y);
 					cout << "曲收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收旭";
 
-
+					x = 78;
 					switch (_currentArrow)
 					{
 					case 0:
 						Gotoxy(x + 20, y - 4);
 						cout << "                ";
 						Gotoxy(x + 20, y - 4);
-						cout << "ⅠⅡ HIGH";
+						cout << "ⅠⅡ	HIGH";
 						Gotoxy(x + 20, y - 3);
 						cout << "                ";
 						Gotoxy(x + 20, y - 3);
@@ -622,7 +622,7 @@ struct Unit
 						Gotoxy(x + 20, y - 3);
 						cout << "                ";
 						Gotoxy(x + 20, y - 3);
-						cout << "ⅠⅡ LOW";
+						cout << "ⅠⅡ	LOW";
 						Gotoxy(x + 20, y - 2);
 						cout << "                ";
 						Gotoxy(x + 20, y - 2);
@@ -640,7 +640,7 @@ struct Unit
 						Gotoxy(x + 20, y - 2);
 						cout << "                ";
 						Gotoxy(x + 20, y - 2);
-						cout << "ⅠⅡ SEVEN";
+						cout << "ⅠⅡ	SEVEN";
 						break;
 					default:
 						break;
@@ -723,8 +723,6 @@ struct Unit
 		else
 		{
 			printInfom();
-			Gotoxy(0, 50);
-			system("pause");
 		}
 	}
 	void compare(int card)
@@ -839,15 +837,11 @@ struct Unit
 					}
 				}
 			}
-
 		}
 		else
 		{
 			printInfom();
 		}
-		Gotoxy(0, 50);
-		system("pause");
-
 	}
 	void checkResult(bool isEnd)
 	{
