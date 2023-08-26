@@ -7,8 +7,8 @@
 #define GAMECOUNTY 1
 #define TEXTLINEX 5
 #define TEXTLINEY 20
-#define COMPUTERTEXTX 40
-#define COMPUTERTEXTY 20
+#define COMPUTERTEXTX 70
+#define COMPUTERTEXTY 21
 using namespace std;
 
 int _betMoney = 100;
@@ -131,6 +131,88 @@ struct Unit
 	Card card;
 	bool isBet;
 
+	void printInfom()
+	{
+		if (isPlayer)
+		{
+			int x = TEXTLINEX;
+			int y = TEXTLINEY + 1;
+
+			Gotoxy(x + 2, y - 1);
+			cout << "플레이어";
+			Gotoxy(x, y++);
+			cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
+
+			Gotoxy(x, y);
+			cout << "┃";
+			Gotoxy(x + 2, y);
+			cout << "소지금: " << money;
+			Gotoxy(x + 39, y++);
+			cout << "┃";
+
+			Gotoxy(x, y);
+			cout << "┃";
+			Gotoxy(x + 39, y++);
+			cout << "┃";
+
+			Gotoxy(x, y);
+			cout << "┃";
+			Gotoxy(x + 39, y++);
+			cout << "┃";
+
+			Gotoxy(x, y);
+			cout << "┃";
+			Gotoxy(x + 39, y++);
+			cout << "┃";
+
+			Gotoxy(x, y);
+			cout << "┃";
+			Gotoxy(x + 39, y++);
+			cout << "┃";
+
+			Gotoxy(x, y++);
+			cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
+		}
+		else
+		{
+			int x = COMPUTERTEXTX;
+			int y = COMPUTERTEXTY;
+
+			Gotoxy(x + 2, y - 1);
+			cout << "컴퓨터";
+			Gotoxy(x, y++);
+			cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
+			Gotoxy(x, y);
+			cout << "┃";
+			Gotoxy(x + 2, y);
+			cout << "소지금: " << money;
+			Gotoxy(x + 39, y++);
+			cout << "┃";
+
+			Gotoxy(x, y);
+			cout << "┃";
+			Gotoxy(x + 39, y++);
+			cout << "┃";
+
+			Gotoxy(x, y);
+			cout << "┃";
+			Gotoxy(x + 39, y++);
+			cout << "┃";
+
+			Gotoxy(x, y);
+			cout << "┃";
+			Gotoxy(x + 39, y++);
+			cout << "┃";
+
+			Gotoxy(x, y);
+			cout << "┃";
+			Gotoxy(x + 39, y++);
+			cout << "┃";
+
+			Gotoxy(x, y++);
+			cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
+		}
+	}
 	void BetOrNot()
 	{
 		bool isNext = false;
@@ -219,91 +301,21 @@ struct Unit
 
 						system("cls");
 						Gotoxy(0, 0);
-						
-						x = TEXTLINEX;
-						y = TEXTLINEY + 1;
 
 						if (_currentArrow == 0)
 						{
-							Gotoxy(x + 2, y - 1);
-							cout << "플레이어";
-							Gotoxy(x, y++);
-							cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
-							
-							Gotoxy(x, y);
-							cout << "┃";
-							Gotoxy(x + 2, y);
-							cout << "소지금: " << money;
-							Gotoxy(x + 26, y);
+							printInfom();
+							Gotoxy(TEXTLINEX + 26, TEXTLINEY +2);
 							cout << "[베팅 한다]" << endl;
-							Gotoxy(x + 39, y++);
-							cout << "┃";
-
-							Gotoxy(x, y);
-							cout << "┃";
-							Gotoxy(x + 39, y++);
-							cout << "┃";
-
-							Gotoxy(x, y);
-							cout << "┃";
-							Gotoxy(x + 39, y++);
-							cout << "┃";
-
-							Gotoxy(x, y);
-							cout << "┃";
-							Gotoxy(x + 39, y++);
-							cout << "┃";
-
-							Gotoxy(x, y);
-							cout << "┃";
-							Gotoxy(x + 39, y++);
-							cout << "┃";
-
-							Gotoxy(x, y++);
-							cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
 							money -= _betMoney;
 							isBet = true;
 							isNext = true;
 						}
 						else if (_currentArrow == 1)
 						{
-							Gotoxy(x + 2, y - 1);
-							cout << "플레이어";
-							Gotoxy(x, y++);
-							cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
-							
-							Gotoxy(x, y);
-							cout << "┃";
-							Gotoxy(x + 2, y);
-							cout << "소지금: " << money;
-							Gotoxy(x + 26, y);
+							printInfom();
+							Gotoxy(TEXTLINEX + 26, TEXTLINEY +2);
 							cout << "[베팅 안한다]" << endl;
-							Gotoxy(x + 39, y++);
-							cout << "┃";
-
-							Gotoxy(x, y);
-							cout << "┃";
-							Gotoxy(x + 39, y++);
-							cout << "┃";
-
-							Gotoxy(x, y);
-							cout << "┃";
-							Gotoxy(x + 39, y++);
-							cout << "┃";
-
-							Gotoxy(x, y);
-							cout << "┃";
-							Gotoxy(x + 39, y++);
-							cout << "┃";
-
-							Gotoxy(x, y);
-							cout << "┃";
-							Gotoxy(x + 39, y++);
-							cout << "┃";
-
-							Gotoxy(x, y++);
-							cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
-							money -= _betMoney;
 							isBet = false;
 							isNext = true;
 						}
@@ -319,24 +331,27 @@ struct Unit
 		else if (!isPlayer)
 		{
 			int random = rand() % 2;
-			int x = COMPUTERTEXTX;
-			int y = COMPUTERTEXTY;
 			if (random == 0)
 			{
-				Gotoxy(x + 2, y - 1);
-				cout << "컴퓨터";
-				Gotoxy(x, y++);
-				cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
-				cout << "컴퓨터 : [베팅한다]" << endl;
+				printInfom();
+				Gotoxy(COMPUTERTEXTX + 26, COMPUTERTEXTY +1);
+				cout << "[베팅 한다]" << endl;
 				money -= _betMoney;
 				isBet = true;
+				Gotoxy(0, 30);
+				system("pause");
 			}
 			else if (random == 1)
 			{
-				cout << "컴퓨터 : [베팅 안한다]" << endl;
+				printInfom();
+				Gotoxy(COMPUTERTEXTX + 26, COMPUTERTEXTY +1);
+				cout << "[베팅 안한다]" << endl;
 				isBet = false;
+				Gotoxy(0,30);
+				system("pause");
 			}
 		}
+		
 	}
 	void selectHighLowSeven()
 	{
