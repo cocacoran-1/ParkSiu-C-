@@ -133,9 +133,10 @@ struct Card
 			break;
 		}
 		int y = 0;
-		Gotoxy(80, y++);
+		int x = 65;
+		Gotoxy(x, y++);
 		cout << " 忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖";
-		Gotoxy(80, y++);
+		Gotoxy(x, y++);
 		if (value == "10")
 		{
 			cout << " 弛 " << value;
@@ -159,17 +160,17 @@ struct Card
 		
 		for (int i = 0; i < 13; i++)
 		{
-			Gotoxy(80, y++);
+			Gotoxy(x, y++);
 			cout << " 弛                                    弛";
 		}
-		Gotoxy(80, y++);
+		Gotoxy(x, y++);
 		cout << " 弛                 " << suit << "                 弛";
 		for (int i = 0; i < 13; i++)
 		{
-			Gotoxy(80, y++);
+			Gotoxy(x, y++);
 			cout << " 弛                                    弛";
 		}
-		Gotoxy(80, y++);
+		Gotoxy(x, y++);
 		if (value == "10")
 		{
 			cout << " 弛                                  " << value << "弛";
@@ -178,7 +179,7 @@ struct Card
 		{
 			cout << " 弛                                  " << value << " 弛";
 		}
-		Gotoxy(80, y++);
+		Gotoxy(x, y++);
 		cout << " 戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎";
 		Gotoxy(0, 50);
 
@@ -186,16 +187,19 @@ struct Card
 	void printCardBack()
 	{
 		int y = 0;
-		Gotoxy(120, y++);
+		int x = 105;
+		Gotoxy(x, y++);
 		cout << " 忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖";
 
 		for (int i = 0; i < 29; i++)
 		{
-			Gotoxy(120, y++);
+			Gotoxy(x, y++);
 			cout << " 弛〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤〤弛";
 		}
-		Gotoxy(120, y++);
+		Gotoxy(x, y++);
 		cout << " 戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎";
+		Gotoxy(0, 50);
+
 	}
 
 
@@ -841,7 +845,7 @@ struct Unit
 		{
 			printInfom();
 		}
-		Gotoxy(0, 0);
+		Gotoxy(0, 50);
 		system("pause");
 
 	}
