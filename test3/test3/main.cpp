@@ -11,6 +11,8 @@ using namespace std;
 
 int _betMoney = 100;
 int _currentArrow = 0;
+int _playerMoney = 1000;
+int _computerMoney = 1000;
 
 /*
 	- 하이로우세븐
@@ -130,7 +132,6 @@ struct Card
 };
 struct Unit
 {
-	int money;
 	bool isPlayer;
 	char choice;
 	Card card;
@@ -151,7 +152,7 @@ struct Unit
 			Gotoxy(x, y);
 			cout << "┃";
 			Gotoxy(x + 2, y);
-			cout << "소지금: " << money;
+			cout << "소지금: " << _playerMoney;
 			Gotoxy(TEXTLINEX + 26, TEXTLINEY + 2);
 			if (isBet)
 			{
@@ -200,7 +201,7 @@ struct Unit
 			Gotoxy(x, y);
 			cout << "┃";
 			Gotoxy(x + 2, y);
-			cout << "소지금: " << money;
+			cout << "소지금: " << _computerMoney;
 			Gotoxy(COMPUTERTEXTX + 26, COMPUTERTEXTY + 1);
 			if (isBet)
 			{
@@ -237,6 +238,102 @@ struct Unit
 			cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
 		}
 	}
+	void printInfomAll()
+	{
+		int x = TEXTLINEX;
+		int y = TEXTLINEY + 1;
+
+		Gotoxy(x + 2, y - 1);
+		cout << "플레이어";
+		Gotoxy(x, y++);
+		cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
+
+		Gotoxy(x, y);
+		cout << "┃";
+		Gotoxy(x + 2, y);
+		cout << "소지금: " << _playerMoney;
+		Gotoxy(TEXTLINEX + 26, TEXTLINEY + 2);
+		if (isBet)
+		{
+			cout << "[베팅 한다]" << endl;
+		}
+		else if (!isBet)
+		{
+			cout << "[베팅 안한다]" << endl;
+		}
+
+		Gotoxy(x + 39, y++);
+		cout << "┃";
+
+		Gotoxy(x, y);
+		cout << "┃";
+		Gotoxy(x + 39, y++);
+		cout << "┃";
+
+		Gotoxy(x, y);
+		cout << "┃";
+		Gotoxy(x + 39, y++);
+		cout << "┃";
+
+		Gotoxy(x, y);
+		cout << "┃";
+		Gotoxy(x + 39, y++);
+		cout << "┃";
+
+		Gotoxy(x, y);
+		cout << "┃";
+		Gotoxy(x + 39, y++);
+		cout << "┃";
+
+		Gotoxy(x, y++);
+		cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
+
+		x = COMPUTERTEXTX;
+		y = COMPUTERTEXTY;
+
+		Gotoxy(x + 2, y - 1);
+		cout << "컴퓨터";
+		Gotoxy(x, y++);
+		cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
+		Gotoxy(x, y);
+		cout << "┃";
+		Gotoxy(x + 2, y);
+		cout << "소지금: " << _computerMoney;
+		Gotoxy(COMPUTERTEXTX + 26, COMPUTERTEXTY + 1);
+		if (isBet)
+		{
+			cout << "[베팅 한다]" << endl;
+		}
+		else if (!isBet)
+		{
+			cout << "[베팅 안한다]" << endl;
+		}
+		Gotoxy(x + 39, y++);
+		cout << "┃";
+
+		Gotoxy(x, y);
+		cout << "┃";
+		Gotoxy(x + 39, y++);
+		cout << "┃";
+
+		Gotoxy(x, y);
+		cout << "┃";
+		Gotoxy(x + 39, y++);
+		cout << "┃";
+
+		Gotoxy(x, y);
+		cout << "┃";
+		Gotoxy(x + 39, y++);
+		cout << "┃";
+
+		Gotoxy(x, y);
+		cout << "┃";
+		Gotoxy(x + 39, y++);
+		cout << "┃";
+
+		Gotoxy(x, y++);
+		cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
+	}
 	void BetOrNot()
 	{
 		bool isNext = false;
@@ -247,8 +344,10 @@ struct Unit
 		{
 			while (!isNext)
 			{
-				x = TEXTLINEX * 2;
-				y = TEXTLINEY + 1;
+				printInfomAll();
+
+				x = TEXTLINEX * 2 -7;
+				y = TEXTLINEY -10;
 				Gotoxy(x, y++);
 				cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
 				Gotoxy(x, y);
@@ -267,7 +366,7 @@ struct Unit
 				Gotoxy(x + 33, y);
 				if (_currentArrow == 0)
 				{
-					cout << "▷▶ YES";
+					cout << "▷▶	YES";
 				}
 				else
 				{
@@ -281,7 +380,7 @@ struct Unit
 				Gotoxy(x + 33, y);
 				if (_currentArrow == 1)
 				{
-					cout << "▷▶ NO";
+					cout << "▷▶	NO";
 				}
 				else
 				{
@@ -298,7 +397,7 @@ struct Unit
 				if (_kbhit())
 				{
 					system("cls");
-
+					printInfomAll();
 					char ch = _getch();
 					switch (ch)
 					{
@@ -325,7 +424,7 @@ struct Unit
 
 						if (_currentArrow == 0)
 						{
-							money -= _betMoney;
+							_playerMoney -= _betMoney;
 							isBet = true;
 							printInfom();
 							isNext = true;
@@ -351,7 +450,7 @@ struct Unit
 
 			if (random == 0)
 			{
-				money -= _betMoney;
+				_computerMoney -= _betMoney;
 				isBet = true;
 				printInfom();
 
@@ -554,7 +653,7 @@ struct Unit
 				{
 					if (card > 7)
 					{
-						money += 2 * _betMoney;
+						_playerMoney += 2 * _betMoney;
 						printInfom();
 						Gotoxy(TEXTLINEX, TEXTLINEY + 4);
 						cout << "\t[플레이어 성공!!!]" << endl;
@@ -571,7 +670,7 @@ struct Unit
 				{
 					if (7 > card)
 					{
-						money += 2 * _betMoney;
+						_playerMoney += 2 * _betMoney;
 						printInfom();
 						Gotoxy(TEXTLINEX, TEXTLINEY + 4);
 						cout << "\t[플레이어 성공!!!]" << endl;
@@ -588,7 +687,7 @@ struct Unit
 				{
 					if (card == 7)
 					{
-						money += 5 * _betMoney;
+						_playerMoney += 5 * _betMoney;
 						printInfom();
 						Gotoxy(TEXTLINEX, TEXTLINEY + 4);
 						cout << "\t[플레이어 성공!!!]" << endl;
@@ -608,7 +707,7 @@ struct Unit
 				{
 					if (card > 7)
 					{
-						money += 2 * _betMoney;
+						_computerMoney += 2 * _betMoney;
 						printInfom();
 						Gotoxy(COMPUTERTEXTX, COMPUTERTEXTY + 3);
 						cout << "\t[컴퓨터 성공...]" << endl;
@@ -625,7 +724,7 @@ struct Unit
 				{
 					if (7 > card)
 					{
-						money += 2 * _betMoney;
+						_computerMoney += 2 * _betMoney;
 						printInfom();
 						Gotoxy(COMPUTERTEXTX, COMPUTERTEXTY + 3);
 						cout << "\t[컴퓨터 성공...]" << endl;
@@ -642,7 +741,7 @@ struct Unit
 				{
 					if (card == 7)
 					{
-						money += 5 * _betMoney;
+						_computerMoney += 5 * _betMoney;
 						printInfom();
 						Gotoxy(COMPUTERTEXTX, COMPUTERTEXTY + 3);
 						cout << "\t[컴퓨터 성공...]" << endl;
@@ -670,7 +769,7 @@ struct Unit
 		isEnd = false;
 		if (isPlayer)
 		{
-			if (money == 0)
+			if (_playerMoney == 0)
 			{
 				int x = 90;
 				int y = 36;
@@ -692,7 +791,7 @@ struct Unit
 		}
 		else
 		{
-			if (money == 0)
+			if (_computerMoney == 0)
 			{
 				int x = 90;
 				int y = 36;
@@ -724,11 +823,9 @@ void main()
 	Unit player;
 	player.isPlayer = true;
 	player.isBet = false;
-	player.money = 1000;
 	Unit computer;
 	computer.isPlayer = false;
 	computer.isBet = false;
-	computer.money = 100;
 	int x = 0;
 	int y = 0;
 
@@ -742,7 +839,6 @@ void main()
 		isEnd = card.gameEnd();
 
 		// 컴퓨터 플레이어 배팅여부 선택
-
 		player.BetOrNot();
 
 		computer.BetOrNot();
@@ -760,12 +856,12 @@ void main()
 		system("pause");
 	}
 
-	if (player.money > computer.money)
+	if (_playerMoney > _computerMoney)
 	{
 		cout << "\t\t{최종 승리}" << endl;
 		cout << "[컴퓨터 패배!!!]" << "[플레이어 승리!!!]";
 	}
-	else if (computer.money > player.money)
+	else if (_computerMoney > _playerMoney)
 	{
 		cout << "\t\t{최종 승리}" << endl;
 		cout << "\t[컴퓨터 승리...]" << "[플레이어 패배...]";
