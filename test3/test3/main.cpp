@@ -134,7 +134,7 @@ struct Card
 		}
 		int y = 0;
 		Gotoxy(80, y++);
-		cout << " ┌────────────────────────────────────┐\n";
+		cout << " ┌────────────────────────────────────┐";
 		Gotoxy(80, y++);
 		if (value == "10")
 		{
@@ -148,7 +148,15 @@ struct Card
 			cout << "              ";
 		else
 			cout << "             ";
-		cout << "                    │";
+		if (value == "10")
+		{
+			cout << "                    │";
+		}
+		else
+		{
+			cout << "                   │";
+		}
+		
 		for (int i = 0; i < 13; i++)
 		{
 			Gotoxy(80, y++);
@@ -175,6 +183,21 @@ struct Card
 		Gotoxy(0, 50);
 
 	}
+	void printCardBack()
+	{
+		int y = 0;
+		Gotoxy(120, y++);
+		cout << " ┌────────────────────────────────────┐";
+
+		for (int i = 0; i < 29; i++)
+		{
+			Gotoxy(120, y++);
+			cout << " │▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒│";
+		}
+		Gotoxy(120, y++);
+		cout << " └────────────────────────────────────┘";
+	}
+
 
 	bool gameEnd()
 	{
@@ -909,6 +932,7 @@ void main()
 		player.compare(card.card[card.current]);
 		computer.compare(card.card[card.current]);
 		card.printCardFront(card.card[card.current]);
+		card.printCardBack();
 		// 소지금에 따라 승패나타내기
 		player.checkResult(isEnd);
 		computer.checkResult(isEnd);
