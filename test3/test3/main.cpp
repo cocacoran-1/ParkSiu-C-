@@ -3,12 +3,10 @@
 #include <Windows.h>
 #include <conio.h> 
 #define CARDSIZE 52
-#define GAMECOUNTX 30
-#define GAMECOUNTY 1
-#define TEXTLINEX 5
-#define TEXTLINEY 20
-#define COMPUTERTEXTX 70
-#define COMPUTERTEXTY 21
+#define TEXTLINEX 35
+#define TEXTLINEY 40
+#define COMPUTERTEXTX 140
+#define COMPUTERTEXTY 42
 using namespace std;
 
 int _betMoney = 100;
@@ -35,6 +33,13 @@ int _currentArrow = 0;
 	- 동시에 파산 시 무승부
 	- 카드 개수 만큼 게임을 진행하고 마지막 소지금을 비교해서 승패 정한다
 */
+enum HighLowSeven
+{
+	High,
+	Low,
+	Seven,
+	End
+};
 void Gotoxy(int x, int y)
 {
 	COORD pos = { x,y };
@@ -147,6 +152,16 @@ struct Unit
 			cout << "┃";
 			Gotoxy(x + 2, y);
 			cout << "소지금: " << money;
+			Gotoxy(TEXTLINEX + 26, TEXTLINEY + 2);
+			if (isBet)
+			{
+				cout << "[베팅 한다]" << endl;
+			}
+			else
+			{
+				cout << "[베팅 안한다]" << endl;
+			}
+
 			Gotoxy(x + 39, y++);
 			cout << "┃";
 
@@ -186,6 +201,15 @@ struct Unit
 			cout << "┃";
 			Gotoxy(x + 2, y);
 			cout << "소지금: " << money;
+			Gotoxy(COMPUTERTEXTX + 26, COMPUTERTEXTY + 1);
+			if (isBet)
+			{
+				cout << "[베팅 한다]" << endl;
+			}
+			else
+			{
+				cout << "[베팅 안한다]" << endl;
+			}
 			Gotoxy(x + 39, y++);
 			cout << "┃";
 
@@ -221,12 +245,10 @@ struct Unit
 		_currentArrow = 0;
 		if (isPlayer)
 		{
-			
+
 			while (!isNext)
 			{
-				Gotoxy(0, 0);
-				cout << "소지금: " << money;
-				x = TEXTLINEX*2;
+				x = TEXTLINEX * 2;
 				y = TEXTLINEY + 1;
 				Gotoxy(x, y++);
 				cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
@@ -304,18 +326,14 @@ struct Unit
 
 						if (_currentArrow == 0)
 						{
-							printInfom();
-							Gotoxy(TEXTLINEX + 26, TEXTLINEY +2);
-							cout << "[베팅 한다]" << endl;
 							money -= _betMoney;
+							printInfom();
 							isBet = true;
 							isNext = true;
 						}
 						else if (_currentArrow == 1)
 						{
 							printInfom();
-							Gotoxy(TEXTLINEX + 26, TEXTLINEY +2);
-							cout << "[베팅 안한다]" << endl;
 							isBet = false;
 							isNext = true;
 						}
@@ -333,45 +351,150 @@ struct Unit
 			int random = rand() % 2;
 			if (random == 0)
 			{
-				printInfom();
-				Gotoxy(COMPUTERTEXTX + 26, COMPUTERTEXTY +1);
-				cout << "[베팅 한다]" << endl;
 				money -= _betMoney;
+				printInfom();
 				isBet = true;
-				Gotoxy(0, 30);
+				Gotoxy(0, 50);
 				system("pause");
 			}
 			else if (random == 1)
 			{
 				printInfom();
-				Gotoxy(COMPUTERTEXTX + 26, COMPUTERTEXTY +1);
-				cout << "[베팅 안한다]" << endl;
 				isBet = false;
-				Gotoxy(0,30);
+				Gotoxy(0, 50);
 				system("pause");
 			}
 		}
-		
+
 	}
 	void selectHighLowSeven()
 	{
+		int x = 63;
+		int y = 30;
+		bool isNext = false;
+		_currentArrow = 0;
 		if (isBet)
 		{
 			if (isPlayer)
 			{
-				cout << "High or Low or Seven (High : H, Low : L, Seven : S)" << endl;
-				cin >> choice;
-				if (choice == 'h')
+				while (!isNext)
 				{
-					choice = 'H';
-				}
-				else if (choice == 'l')
-				{
-					choice = 'L';
-				}
-				else if (choice == 's')
-				{
-					choice = 'S';
+					Gotoxy(x, y++);
+					cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
+
+					Gotoxy(x, y);
+					cout << "┃";
+					Gotoxy(x + 20, y);
+					cout << "High or Low or Seven (High : H, Low : L, Seven : S)" << endl;
+					Gotoxy(x + 90, y++);
+					cout << "┃";
+
+					Gotoxy(x, y);
+					cout << "┃";
+					Gotoxy(x + 90, y++);
+					cout << "┃";
+
+					Gotoxy(x, y);
+					cout << "┃";
+					Gotoxy(x + 90, y++);
+					cout << "┃";
+
+					Gotoxy(x, y);
+					cout << "┃";
+					Gotoxy(x + 90, y++);
+					cout << "┃";
+					Gotoxy(x, y);
+					cout << "┃";
+					Gotoxy(x + 90, y++);
+					cout << "┃";
+					Gotoxy(x, y);
+					cout << "┃";
+					Gotoxy(x + 90, y++);
+					cout << "┃";
+					Gotoxy(x, y);
+					cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
+
+					switch (_currentArrow)
+					{
+					case 0:
+						Gotoxy(x + 20, y - 4);
+						cout << "▷▶ HIGH";
+						Gotoxy(x + 20, y - 3);
+						cout << "	LOW";
+						Gotoxy(x + 20, y - 2);
+						cout << "	SEVEN";
+						break;
+					case 1:
+						Gotoxy(x + 20, y - 4);
+						cout << "	HIGH";
+						Gotoxy(x + 20, y - 3);
+						cout << "▷▶ LOW";
+						Gotoxy(x + 20, y - 2);
+						cout << "	SEVEN";
+						break;
+					case 2:
+						Gotoxy(x + 20, y - 4);
+						cout << "	HIGH";
+						Gotoxy(x + 20, y - 3);
+						cout << "	LOW";
+						Gotoxy(x + 20, y - 2);
+						cout << "▷▶ SEVEN";
+						break;
+					default:
+						break;
+					}
+					
+					if (_kbhit)
+					{
+						system("cls");
+						char ch = _getch();
+						switch (ch)
+						{
+							//w키를 눌렀을때.
+						case 'w':
+							_currentArrow--;
+							printInfom();
+							if (_currentArrow < 0)
+							{
+								_currentArrow = 0;
+							}
+							break;
+							//s키를 눌렀을때.
+						case 's':
+							_currentArrow++;
+							printInfom();
+							if (_currentArrow > 2)
+							{
+								_currentArrow = 2;
+							}
+							break;
+						case '\r':
+							system("cls");
+							Gotoxy(0, 0);
+							if (_currentArrow == High)
+							{
+								printInfom();
+								choice = 'H';
+								isNext = true;
+							}
+							else if (_currentArrow == Low)
+							{
+								printInfom();
+								choice = 'L';
+								isNext = true;
+							}
+							else if (_currentArrow == Seven)
+							{
+								printInfom();
+								choice = 'S';
+								isNext = true;
+							}
+
+							break;
+						}
+					}
+					
+
 				}
 			}
 			else
@@ -379,16 +502,21 @@ struct Unit
 				int random = rand() % 3;
 				if (random == 0)
 				{
+					printInfom();
 					choice = 'H';
 				}
 				else if (random == 1)
 				{
+					printInfom();
 					choice = 'L';
 				}
 				else if (random == 2)
 				{
+					printInfom();
 					choice = 'S';
 				}
+				Gotoxy(0, 50);
+				system("pause");
 			}
 		}
 	}
