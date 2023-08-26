@@ -2,6 +2,7 @@
 #include <time.h>
 #include <Windows.h>
 #include <conio.h> 
+#include <string>
 #define CARDSIZE 52
 #define TEXTLINEX 35
 #define TEXTLINEY 40
@@ -69,6 +70,8 @@ struct Card
 {
 	int card[CARDSIZE];
 	int current;
+	string suit;
+	string value;
 
 	void init()
 	{
@@ -78,46 +81,101 @@ struct Card
 		{
 			card[i] = i;
 		}
+
+		for (int i = 0; i < 10000; i++)
+		{
+			int num1 = rand() % 52;
+			int num2 = rand() % 52;
+			int temp = card[num1];
+			card[num1] = card[num2];
+			card[num2] = temp;
+		}
 	}
 
-	void printCard(int num)
+	void printCardFront(int num)
 	{
+		string suit;
 		switch (num / 13)
 		{
 		case 0:
-			cout << "♥";
+			suit = "♥";
 			break;
 		case 1:
-			cout << "♣";
+			suit = "♣";
 			break;
 		case 2:
-			cout << "◆";
+			suit = "◆";
 			break;
 		case 3:
-			cout << "♠";
+			suit = "♠";
 			break;
 		default:
 			break;
 		}
+
+		string value;
 		switch (num % 13 + 1)
 		{
 		case 1:
-			cout << "A";
+			value = "A";
 			break;
 		case 11:
-			cout << "J";
+			value = "J";
 			break;
 		case 12:
-			cout << "Q";
+			value = "Q";
 			break;
 		case 13:
-			cout << "K" << endl;
+			value = "K";
 			break;
 		default:
-			cout << num % 13 + 1;
+			value = to_string(num % 13 + 1);
 			break;
 		}
+		int y = 0;
+		Gotoxy(80, y++);
+		cout << " ┌────────────────────────────────────┐\n";
+		Gotoxy(80, y++);
+		if (value == "10")
+		{
+			cout << " │ " << value;
+		}
+		else
+		{
+			cout << " │  " << value;
+		}
+		if (value.length() == 1)
+			cout << "              ";
+		else
+			cout << "             ";
+		cout << "                    │";
+		for (int i = 0; i < 13; i++)
+		{
+			Gotoxy(80, y++);
+			cout << " │                                    │";
+		}
+		Gotoxy(80, y++);
+		cout << " │                 " << suit << "                 │";
+		for (int i = 0; i < 13; i++)
+		{
+			Gotoxy(80, y++);
+			cout << " │                                    │";
+		}
+		Gotoxy(80, y++);
+		if (value == "10")
+		{
+			cout << " │                                  " << value << "│";
+		}
+		else
+		{
+			cout << " │                                  " << value << " │";
+		}
+		Gotoxy(80, y++);
+		cout << " └────────────────────────────────────┘";
+		Gotoxy(0, 50);
+
 	}
+
 	bool gameEnd()
 	{
 		if (current == 51)
@@ -832,6 +890,7 @@ void main()
 	bool isEnd = false;
 
 	card.init();
+
 	while (!isEnd)
 	{
 		system("cls");
@@ -849,6 +908,7 @@ void main()
 		// 컴퓨터 플레이어 선택과 카드 비교
 		player.compare(card.card[card.current]);
 		computer.compare(card.card[card.current]);
+		card.printCardFront(card.card[card.current]);
 		// 소지금에 따라 승패나타내기
 		player.checkResult(isEnd);
 		computer.checkResult(isEnd);
