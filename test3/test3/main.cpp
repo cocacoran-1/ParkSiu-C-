@@ -3,9 +3,14 @@
 #include <Windows.h>
 #include <conio.h> 
 #define CARDSIZE 52
+#define GAMECOUNTX 30
+#define GAMECOUNTY 1
+#define TEXTLINEX 10
+#define TEXTLINEY 20
 using namespace std;
 
 int _betMoney = 100;
+int _currentArrow = 0;
 
 /*
 	- 하이로우세븐
@@ -28,8 +33,29 @@ int _betMoney = 100;
 	- 동시에 파산 시 무승부
 	- 카드 개수 만큼 게임을 진행하고 마지막 소지금을 비교해서 승패 정한다
 */
+void Gotoxy(int x, int y)
+{
+	COORD pos = { x,y };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
 
+void SetCursor(bool isShow)
+{
+	CONSOLE_CURSOR_INFO cursorInfo;
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (isShow)
+	{
+		cursorInfo.bVisible = TRUE;
+		cursorInfo.dwSize = 10;
+	}
+	else
+	{
+		cursorInfo.bVisible = FALSE;
+		cursorInfo.dwSize = 10;
+	}
 
+	SetConsoleCursorInfo(hConsole, &cursorInfo);
+}
 struct Card
 {
 	int card[CARDSIZE];
@@ -105,24 +131,104 @@ struct Unit
 
 	void BetOrNot()
 	{
+		int x = TEXTLINEX;
+		int y = TEXTLINEY + 1;
+		_currentArrow = 0;
 		if (isPlayer)
 		{
-			char select = '\0';
-			cout << "베팅을 하시겠습니까? (Yes : Y , No : N)" << endl;
-			cin >> select;
-			if (select == 'Y' || select == 'y')
+			while (true)
 			{
-				cout << "플레이어 : [베팅한다]" << endl;
-				money -= _betMoney;
-				isBet = true;
+				Gotoxy(x, y++);
+				cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
+				Gotoxy(x, y);
+				cout << "┃";
+				Gotoxy(x + 30, y);
+				cout << "베팅을 하시겠습니까?" << endl;
+				Gotoxy(x + 84, y++);
+				cout << "┃";
+				Gotoxy(x, y);
+				cout << "┃";
+				Gotoxy(x + 84, y++);
+				cout << "┃";
+
+				Gotoxy(x, y);
+				cout << "┃";
+				Gotoxy(x + 33, y);
+				if (_currentArrow == 0)
+				{
+					cout << "▷▶ YES";
+				}
+				else
+				{
+					cout << "	YES";
+				}
+				Gotoxy(x + 84, y++);
+				cout << "┃";
+
+				Gotoxy(x, y);
+				cout << "┃";
+				Gotoxy(x + 33, y);
+				if (_currentArrow == 1)
+				{
+					cout << "▷▶ NO";
+				}
+				else
+				{
+					cout << "	NO";
+				}
+				Gotoxy(x + 84, y++);
+				cout << "┃";
+				Gotoxy(x, y);
+				cout << "┃";
+				Gotoxy(x + 84, y++);
+				cout << "┃";
+				Gotoxy(x, y++);
+				cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
+				if (_kbhit())
+				{
+					system("cls");
+				
+					char ch = _getch();
+					switch (ch)
+					{
+						//w키를 눌렀을때.
+					case 'w':
+						_currentArrow--;
+						if (_currentArrow < 0)
+						{
+							_currentArrow = 0;
+						}
+						break;
+						//s키를 눌렀을때.
+					case 's':
+						_currentArrow++;
+						if (_currentArrow > 1)
+						{
+							_currentArrow = 1;
+						}
+						break;
+					case '\r':
+						if (_currentArrow == 0)
+						{
+							cout << "플레이어 : [베팅한다]" << endl;
+							money -= _betMoney;
+							isBet = true;
+						}
+						else if (_currentArrow == 1)
+						{
+							cout << "플레이어 : [베팅 안한다]" << endl;
+							isBet = false;
+						}
+						break;
+					default:
+						break;
+					}
+
+				}
 			}
-			else if (select == 'N' || select == 'n')
-			{
-				cout << "플레이어 : [베팅 안한다]" << endl;
-				isBet = false;
-			}
+
 		}
-		else if(!isPlayer)
+		else if (!isPlayer)
 		{
 			int random = rand() % 2;
 			if (random == 0)
@@ -288,32 +394,10 @@ struct Unit
 	}
 };
 
-void Gotoxy(int x, int y)
-{
-	COORD pos = { x,y };
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-}
-
-void SetCursor(bool isShow)
-{
-	CONSOLE_CURSOR_INFO cursorInfo;
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	if (isShow)
-	{
-		cursorInfo.bVisible = TRUE;
-		cursorInfo.dwSize = 10;
-	}
-	else
-	{
-		cursorInfo.bVisible = FALSE;
-		cursorInfo.dwSize = 10;
-	}
-
-	SetConsoleCursorInfo(hConsole, &cursorInfo);
-}
 
 void main()
 {
+	SetCursor(false);
 	srand(time(NULL));
 	Card card;
 	Unit player;
@@ -324,18 +408,37 @@ void main()
 	computer.isPlayer = false;
 	computer.isBet = false;
 	computer.money = 1000;
+	int x = 0;
+	int y = 0;
 
 	bool isEnd = false;
 
 	card.init();
-
 	while (!isEnd)
 	{
-		cout << "\t\t[GAME\t" << card.current+1 << "]" << endl;
+		system("cls");
+		x = GAMECOUNTX;
+		y = GAMECOUNTY;
+		Gotoxy(x, y++);
+		cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
+		Gotoxy(x, y);
+		cout << "┃";
+		Gotoxy(x + 17, y);
+		cout << "[GAME " << card.current + 1 << "]";
+		Gotoxy(x + 42, y++);
+		cout << "┃";
+		Gotoxy(x, y++);
+		cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" << endl;
+		Gotoxy(x, y++);
+
 		isEnd = card.gameEnd();
+
 		// 컴퓨터 플레이어 배팅여부 선택
+
 		player.BetOrNot();
+
 		computer.BetOrNot();
+
 		// 컴퓨터 플레이어 배팅시 하이로우세븐 선택
 		player.selectHighLowSeven();
 		computer.selectHighLowSeven();
@@ -347,7 +450,8 @@ void main()
 		player.checkResult(isEnd);
 		computer.checkResult(isEnd);
 		card.current++;
-	} 
+		system("pause");
+	}
 
 	if (player.money > computer.money)
 	{
@@ -364,4 +468,5 @@ void main()
 		cout << "\t\t{최종 승리}" << endl;
 		cout << "\t[무 승 부]";
 	}
+
 }
