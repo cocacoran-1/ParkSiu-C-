@@ -940,13 +940,33 @@ void main()
 
 	if (_playerMoney > _computerMoney)
 	{
-		cout << "\t\t{譆謙 蝓葬}" << endl;
-		cout << "[闡У攪 ぬ寡!!!]" << "[Ы溯檜橫 蝓葬!!!]";
+		Gotoxy(x, y);
+		cout << "旨收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收旬";
+		Gotoxy(x, y + 1);
+		cout << "早";
+		Gotoxy(x + 10, y + 1);
+		cout << "[Ы溯檜橫 蝓葬!!!]" << endl;
+		Gotoxy(x + 36, y + 1);
+		cout << "早";
+		Gotoxy(x, y + 2);
+		cout << "曲收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收旭";
+		isEnd = true;
+		Gotoxy(0, 50);
 	}
 	else if (_computerMoney > _playerMoney)
 	{
-		cout << "\t\t{譆謙 蝓葬}" << endl;
-		cout << "\t[闡У攪 蝓葬...]" << "[Ы溯檜橫 ぬ寡...]";
+		Gotoxy(x, y);
+		cout << "旨收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收旬";
+		Gotoxy(x, y + 1);
+		cout << "早";
+		Gotoxy(x + 10, y + 1);
+		cout << "[闡У攪 蝓葬...]" << endl;
+		Gotoxy(x + 36, y + 1);
+		cout << "早";
+		Gotoxy(x, y + 2);
+		cout << "曲收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收收旭";
+		isEnd = true;
+		Gotoxy(0, 50);
 	}
 	else
 	{
