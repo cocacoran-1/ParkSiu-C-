@@ -970,8 +970,18 @@ void main()
 	}
 	else
 	{
-		cout << "\t\t{弥辆 铰府}" << endl;
-		cout << "\t[公 铰 何]";
+		Gotoxy(x, y);
+		cout << "ΞΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΟ";
+		Gotoxy(x, y + 1);
+		cout << "Ν";
+		Gotoxy(x + 10, y + 1);
+		cout << "[公 铰 何]" << endl;
+		Gotoxy(x + 36, y + 1);
+		cout << "Ν";
+		Gotoxy(x, y + 2);
+		cout << "ΡΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΜΠ";
+		isEnd = true;
+		Gotoxy(0, 50);
 	}
 
 }
