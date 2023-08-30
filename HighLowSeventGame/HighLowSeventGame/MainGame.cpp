@@ -2,7 +2,7 @@
 #include "Card.h"
 #include "MainGame.h"
 
-void MinGame::Init()
+void MainGame::Init()
 {
 	srand(time(NULL));
 	for (int i = 0; i < 52; i++)
@@ -24,15 +24,23 @@ void MinGame::Init()
 	}
 }
 
-void MinGame::Update()
+void MainGame::Update()
+{
+	system("cls");
+	for (int i = 4; i > 0; i--)
+	{
+		PrintCard(_card[_currentIndex - i]);
+		cout << "\t";
+	}
+
+	system("pause");
+}
+
+void MainGame::Release()
 {
 }
 
-void MinGame::Release()
-{
-}
-
-bool MinGame::IsEnd()
+bool MainGame::IsEnd()
 {
 	return false;
 }

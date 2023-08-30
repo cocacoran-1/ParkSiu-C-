@@ -6,23 +6,15 @@ enum eCardShape
 	SPADE,
 	DIA,
 	CLOVER,
-	HEART,
-	END
+	HEART
 };
-enum eHighLowSeven
-{
-	HIGH,
-	LOW,
-	Seven,
-	END
-};
+
 enum eCardText
 {
 	ACE = 1,
 	JACK = 10,
 	QUEEN,
-	KING,
-	END
+	KING
 };
 
 void PrintCard(int cardNum)
@@ -59,6 +51,7 @@ void PrintCard(int cardNum)
 		cout << "K";
 		break;
 	default:
+		cout << cardNum % 13 + 1;
 		break;
 	}
 }

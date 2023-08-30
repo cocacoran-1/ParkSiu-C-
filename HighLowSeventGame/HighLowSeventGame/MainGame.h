@@ -1,6 +1,14 @@
 #pragma once
+enum eBetChoice
+{
+	HIGH,
+	LOW,
+	SEVEN,
+	NOBET,
+	END
+};
 
-class MinGame
+class MainGame
 {
 public:
 	int _card[52];
@@ -13,6 +21,4 @@ public:
 	void Update();
 	void Release();
 	bool IsEnd();
-
-
 };
