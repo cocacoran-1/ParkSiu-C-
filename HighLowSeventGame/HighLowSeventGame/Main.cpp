@@ -7,6 +7,11 @@ void main()
 	mainGame.Init();
 	mainGame.Update();
 	
-	
+	while (!mainGame.IsEnd())
+	{
+		mainGame.Update();
+	}
+
+	mainGame.Release();
 
 }

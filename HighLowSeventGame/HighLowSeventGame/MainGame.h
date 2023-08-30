@@ -1,5 +1,5 @@
 #pragma once
-enum eBetChoice
+enum eBetType
 {
 	HIGH,
 	LOW,
