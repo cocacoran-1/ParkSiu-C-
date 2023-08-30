@@ -1,12 +1,14 @@
 #include <iostream>
 #include<time.h>
 #include<Windows.h>
+
 #define BINGO_SIZE 5
 #define BOARD_SIZE (BINGO_SIZE * BINGO_SIZE)
 
-int _input[BOARD_SIZE] = {};
-int playCount = 0;
 using namespace std;
+
+int _input[BOARD_SIZE] = {};
+int _playCount = 0;
 
 struct User
 {
@@ -14,14 +16,14 @@ struct User
 	int bingGoLine;
 	bool isPlayer;
 
-	void init()
+	void Init()
 	{
 		for (int i = 0; i < BOARD_SIZE; i++)
 		{
 			Binggo[i] = i + 1;
 		}
 	}
-	void shuffle()
+	void Shuffle()
 	{
 		for (int i = 0; i < 10000; i++)
 		{
@@ -65,7 +67,7 @@ struct User
 	}
 	void Check()
 	{
-		// 세로 확인
+		// 세로 
 		for (int i = 0; i < BINGO_SIZE; i++)
 		{
 			int sameCount = 0;
@@ -85,7 +87,7 @@ struct User
 				bingGoLine++;
 			}
 		}
-		//가로 확인
+		//가로
 		for (int i = 0; i < BINGO_SIZE; i++)
 		{
 			int sameCount = 0;
@@ -104,7 +106,7 @@ struct User
 				bingGoLine++;
 			}
 		}
-		// 대각선 확인
+		// 대각선 
 		for (int i = 0; i < BINGO_SIZE; i++)
 		{
 			int sameCount = 0;
@@ -143,16 +145,16 @@ struct User
 		{
 			while (isSame)
 			{
-				cout << endl << "\t  [플레이어 차례]" << endl;
+				cout << "[플레이어 차례]" << endl;
 				cout << "1~25까지의 숫자 중 하나를 선택해주세요" << endl;
-				cin >> _input[playCount];
-				cout << "플레이어 선택 : " << _input[playCount] << endl << endl;
+				cin >> _input[_playCount];
+				cout << "플레이어 선택 " << _input[_playCount] << endl << endl;
 
 				for (int i = 0; i < BOARD_SIZE; i++)
 				{
-					if (i != playCount)
+					if (i != _playCount)
 					{
-						if (_input[playCount] == _input[i])
+						if (_input[_playCount] == _input[i])
 						{
 							cout << "이미 선택된 숫자입니다. 다시 선택해주세요" << endl;
 							isSame = true;
@@ -168,17 +170,17 @@ struct User
 		else
 		{
 			isSame = true;
-			cout << endl << "\t   [컴퓨터 차례]" << endl;
+			cout << "컴퓨터 차례" << endl;
 
 			while (isSame)
 			{
-				_input[playCount] = rand() % BOARD_SIZE + 1;
+				_input[_playCount] = rand() % BOARD_SIZE + 1;
 				isSame = false;
 				for (int i = 0; i < BOARD_SIZE; i++)
 				{
-					if (i != playCount)
+					if (i != _playCount)
 					{
-						if (_input[playCount] == _input[i])
+						if (_input[_playCount] == _input[i])
 						{
 							isSame = true;
 							break;
@@ -186,9 +188,9 @@ struct User
 					}
 				}
 			}
-			cout << "컴퓨터 선택 : " << _input[playCount] << endl << endl;
+			cout << "컴퓨터 선택 " << _input[_playCount] << endl << endl;
 		}
-		playCount++;
+		_playCount++;
 	}
 };
 
@@ -210,7 +212,7 @@ struct GameManager
 void main()
 {
 	GameManager gameManager;
-	
+
 	gameManager.Init();
 
 	bool isBinggo = false;
@@ -219,26 +221,26 @@ void main()
 	system("cls");
 
 	cout << "플레이어" << endl;
-	gameManager.player.init();
-	gameManager.player.shuffle();
+	gameManager.player.Init();
+	gameManager.player.Shuffle();
 	gameManager.player.Show();
 	cout << "컴퓨터" << endl;
-	gameManager.computer.init();
-	gameManager.computer.shuffle();
+	gameManager.computer.Init();
+	gameManager.computer.Shuffle();
 	gameManager.computer.Show();
 
 	do
 	{
 		gameManager.player.Input();
-		cout << "\t  플레이어 빙고" << endl;
+		cout << "플레이어 빙고" << endl;
 		gameManager.player.Show();
-		cout << endl << "\t   컴퓨터 빙고" << endl;
+		cout <<  "컴퓨터 빙고" << endl;
 		gameManager.computer.Show();
 
 		gameManager.computer.Input();
-		cout << "\t  플레이어 빙고" << endl;
+		cout << "플레이어 빙고" << endl;
 		gameManager.player.Show();
-		cout << endl << "\t   컴퓨터 빙고" << endl;
+		cout << "컴퓨터 빙고" << endl;
 		gameManager.computer.Show();
 
 		gameManager.player.Check();

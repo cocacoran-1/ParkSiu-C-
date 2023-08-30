@@ -157,7 +157,7 @@ struct Card
 		{
 			cout << "                   │";
 		}
-		
+
 		for (int i = 0; i < 13; i++)
 		{
 			Gotoxy(x, y++);
@@ -219,24 +219,16 @@ struct User
 {
 	bool isPlayer;
 	char choice;
-	Card card;
 	bool isBet;
 	int money;
-	int current;
-	int cards[52];
+	int cardNum;
 
 	void Init()
 	{
-		for (int i = 0; i < 52; i++)
-		{
-			cards[i] = card.card[i];
-		}
 		money = 1000;
 		choice = '\0';
 		bool isPlayer = false;
 		isBet = false;
-		card.current = 0;
-		current = 0;
 	}
 	void PrintInfom()
 	{
@@ -447,8 +439,8 @@ struct User
 			{
 				PrintInfomAll();
 
-				x = TEXT_LINE_X * 2 -7;
-				y = TEXT_LINE_Y -10;
+				x = TEXT_LINE_X * 2 - 7;
+				y = TEXT_LINE_Y - 10;
 				Gotoxy(x, y++);
 				cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
 				Gotoxy(x, y);
@@ -741,189 +733,185 @@ struct User
 			PrintInfom();
 		}
 	}
-	void CompareWithCurrentCard()
-	{
-		current = card.current;
-		int cardNum = cards[current];
-		if (isBet)
-		{
-			if (isPlayer)
-			{
-				// High
-				if (choice == 'H')
-				{
-					if (cardNum > 7)
-					{
-						money += 2 * _betMoney;
-						PrintInfom();
-						Gotoxy(TEXT_LINE_X, TEXT_LINE_Y + 4);
-						cout << "\t[플레이어 성공!!!]" << endl;
-					}
-					else
-					{
-						PrintInfom();
-						Gotoxy(TEXT_LINE_X, TEXT_LINE_Y + 4);
-						cout << "\t[플레이어 실패...]" << endl;
-					}
-				}
-				// Low
-				if (choice == 'L')
-				{
-					if (7 > cardNum)
-					{
-						money += 2 * _betMoney;
-						PrintInfom();
-						Gotoxy(TEXT_LINE_X, TEXT_LINE_Y + 4);
-						cout << "\t[플레이어 성공!!!]" << endl;
-					}
-					else
-					{
-						PrintInfom();
-						Gotoxy(TEXT_LINE_X, TEXT_LINE_Y + 4);
-						cout << "\t[플레이어 실패...]" << endl;
-					}
-				}
-				// Seven
-				if (choice == 'S')
-				{
-					if (cardNum == 7)
-					{
-						money += 5 * _betMoney;
-						PrintInfom();
-						Gotoxy(TEXT_LINE_X, TEXT_LINE_Y + 4);
-						cout << "\t[플레이어 성공!!!]" << endl;
-					}
-					else
-					{
-						PrintInfom();
-						Gotoxy(TEXT_LINE_X, TEXT_LINE_Y + 4);
-						cout << "\t[플레이어 실패...]" << endl;
-					}
-				}
-			}
-			else if (!isPlayer)
-			{
-				// High
-				if (choice == 'H')
-				{
-					if (cardNum > 7)
-					{
-						money += 2 * _betMoney;
-						PrintInfom();
-						Gotoxy(COMPUTER_TEXT_X, COMPUTER_TEXT_Y + 3);
-						cout << "\t[컴퓨터 성공...]" << endl;
-					}
-					else
-					{
-						PrintInfom();
-						Gotoxy(COMPUTER_TEXT_X, COMPUTER_TEXT_Y + 3);
-						cout << "\t[컴퓨터 실패!!!]" << endl;
-					}
-				}
-				// Low
-				if (choice == 'L')
-				{
-					if (7 > cardNum)
-					{
-						money += 2 * _betMoney;
-						PrintInfom();
-						Gotoxy(COMPUTER_TEXT_X, COMPUTER_TEXT_Y + 3);
-						cout << "\t[컴퓨터 성공...]" << endl;
-					}
-					else
-					{
-						PrintInfom();
-						Gotoxy(COMPUTER_TEXT_X, COMPUTER_TEXT_Y + 3);
-						cout << "\t[컴퓨터 실패!!!]" << endl;
-					}
-				}
-				// Seven
-				if (choice == 'S')
-				{
-					if (cardNum == 7)
-					{
-						money += 5 * _betMoney;
-						PrintInfom();
-						Gotoxy(COMPUTER_TEXT_X, COMPUTER_TEXT_Y + 3);
-						cout << "\t[컴퓨터 성공...]" << endl;
-					}
-					else
-					{
-						PrintInfom();
-						Gotoxy(COMPUTER_TEXT_X, COMPUTER_TEXT_Y + 3);
-						cout << "\t[컴퓨터 실패!!! ]" << endl;
-					}
-				}
 
-			}
-		}
-		else
-		{
-			PrintInfom();
-		}
-		
-	}
-	
 };
 
 struct GameManager
 {
-	User user;
 	bool isEnd;
-	bool isPlayer;
+	Card card;
+	User player;
+	User computer;
 
 	void Init()
 	{
-		isPlayer = false;
 		isEnd = false;
 	}
-	void CheckResult()
+	void CompareWithCurrentCard(int cardNum)
 	{
-		isPlayer = user.isPlayer;
-		isEnd = false;
-		if (isPlayer)
+		if (player.isBet)
 		{
-			if (user.money == 0)
+			// High
+			if (player.choice == 'H')
 			{
-				int x = 90;
-				int y = 36;
-				Gotoxy(TEXT_LINE_X, TEXT_LINE_Y + 5);
-				cout << "\t[파산했습니다...]" << endl;
-				Gotoxy(x, y);
-				cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
-				Gotoxy(x, y + 1);
-				cout << "┃";
-				Gotoxy(x + 10, y + 1);
-				cout << "[플레이어 패배...]" << endl;
-				Gotoxy(x + 36, y + 1);
-				cout << "┃";
-				Gotoxy(x, y + 2);
-				cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
-				isEnd = true;
-				Gotoxy(0, 50);
+				if (cardNum > 7)
+				{
+					player.money += 2 * _betMoney;
+					player.PrintInfom();
+					Gotoxy(TEXT_LINE_X, TEXT_LINE_Y + 4);
+					cout << "\t[플레이어 성공!!!]" << endl;
+				}
+				else
+				{
+					player.PrintInfom();
+					Gotoxy(TEXT_LINE_X, TEXT_LINE_Y + 4);
+					cout << "\t[플레이어 실패...]" << endl;
+				}
 			}
+			// Low
+			if (player.choice == 'L')
+			{
+				if (7 > cardNum)
+				{
+					player.money += 2 * _betMoney;
+					player.PrintInfom();
+					Gotoxy(TEXT_LINE_X, TEXT_LINE_Y + 4);
+					cout << "\t[플레이어 성공!!!]" << endl;
+				}
+				else
+				{
+					player.PrintInfom();
+					Gotoxy(TEXT_LINE_X, TEXT_LINE_Y + 4);
+					cout << "\t[플레이어 실패...]" << endl;
+				}
+			}
+			// Seven
+			if (player.choice == 'S')
+			{
+				if (cardNum == 7)
+				{
+					player.money += 5 * _betMoney;
+					player.PrintInfom();
+					Gotoxy(TEXT_LINE_X, TEXT_LINE_Y + 4);
+					cout << "\t[플레이어 성공!!!]" << endl;
+				}
+				else
+				{
+					player.PrintInfom();
+					Gotoxy(TEXT_LINE_X, TEXT_LINE_Y + 4);
+					cout << "\t[플레이어 실패...]" << endl;
+				}
+			}
+
 		}
 		else
 		{
-			if (user.money == 0)
+			player.PrintInfom();
+		}
+
+		if (computer.isBet)
+		{
+			// High
+			if (computer.choice == 'H')
 			{
-				int x = 90;
-				int y = 36;
-				Gotoxy(COMPUTER_TEXT_X, COMPUTER_TEXT_Y + 3);
-				cout << "\t[상대가 파산했습니다!!!]" << endl;
-				Gotoxy(x, y);
-				cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
-				Gotoxy(x, y + 1);
-				cout << "┃";
-				Gotoxy(x + 10, y + 1);
-				cout << "[플레이어 승리!!!]" << endl;
-				Gotoxy(x + 36, y + 1);
-				cout << "┃";
-				Gotoxy(x, y + 2);
-				cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
-				isEnd = true;
-				Gotoxy(0, 50);
+				if (cardNum > 7)
+				{
+					computer.money += 2 * _betMoney;
+					computer.PrintInfom();
+					Gotoxy(COMPUTER_TEXT_X, COMPUTER_TEXT_Y + 3);
+					cout << "\t[컴퓨터 성공...]" << endl;
+				}
+				else
+				{
+					computer.PrintInfom();
+					Gotoxy(COMPUTER_TEXT_X, COMPUTER_TEXT_Y + 3);
+					cout << "\t[컴퓨터 실패!!!]" << endl;
+				}
 			}
+			// Low
+			if (computer.choice == 'L')
+			{
+				if (7 > cardNum)
+				{
+					computer.money += 2 * _betMoney;
+					computer.PrintInfom();
+					Gotoxy(COMPUTER_TEXT_X, COMPUTER_TEXT_Y + 3);
+					cout << "\t[컴퓨터 성공...]" << endl;
+				}
+				else
+				{
+					computer.PrintInfom();
+					Gotoxy(COMPUTER_TEXT_X, COMPUTER_TEXT_Y + 3);
+					cout << "\t[컴퓨터 실패!!!]" << endl;
+				}
+			}
+			// Seven
+			if (computer.choice == 'S')
+			{
+				if (cardNum == 7)
+				{
+					computer.money += 5 * _betMoney;
+					computer.PrintInfom();
+					Gotoxy(COMPUTER_TEXT_X, COMPUTER_TEXT_Y + 3);
+					cout << "\t[컴퓨터 성공...]" << endl;
+				}
+				else
+				{
+					computer.PrintInfom();
+					Gotoxy(COMPUTER_TEXT_X, COMPUTER_TEXT_Y + 3);
+					cout << "\t[컴퓨터 실패!!! ]" << endl;
+				}
+			}
+
+
+		}
+		else
+		{
+			computer.PrintInfom();
+		}
+
+	}
+
+	void CheckResult()
+	{
+		isEnd = false;
+		if (player.money == 0)
+		{
+			int x = 90;
+			int y = 36;
+			Gotoxy(TEXT_LINE_X, TEXT_LINE_Y + 5);
+			cout << "\t[파산했습니다...]" << endl;
+			Gotoxy(x, y);
+			cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
+			Gotoxy(x, y + 1);
+			cout << "┃";
+			Gotoxy(x + 10, y + 1);
+			cout << "[플레이어 패배...]" << endl;
+			Gotoxy(x + 36, y + 1);
+			cout << "┃";
+			Gotoxy(x, y + 2);
+			cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
+			isEnd = true;
+			Gotoxy(0, 50);
+		}
+		else if (computer.money == 0)
+		{
+			int x = 90;
+			int y = 36;
+			Gotoxy(COMPUTER_TEXT_X, COMPUTER_TEXT_Y + 3);
+			cout << "\t[상대가 파산했습니다!!!]" << endl;
+			Gotoxy(x, y);
+			cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
+			Gotoxy(x, y + 1);
+			cout << "┃";
+			Gotoxy(x + 10, y + 1);
+			cout << "[플레이어 승리!!!]" << endl;
+			Gotoxy(x + 36, y + 1);
+			cout << "┃";
+			Gotoxy(x, y + 2);
+			cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
+			isEnd = true;
+			Gotoxy(0, 50);
 		}
 	}
 };
@@ -933,25 +921,20 @@ void main()
 	srand(time(NULL));
 
 	Card card;
-	
-	User player;
-	player.isBet = false;
-
-	User computer;
-	computer.isBet = false;
-
 	GameManager gameManager;
+
+	gameManager.player.isBet = false;
+	gameManager.computer.isBet = false;
 
 	int x = 0;
 	int y = 0;
 
 	card.Init();
-	player.Init();
-	computer.Init();
+	gameManager.player.Init();
+	gameManager.computer.Init();
 	gameManager.Init();
-
-	computer.isPlayer = false;
-	player.isPlayer = true;
+	gameManager.computer.isPlayer = false;
+	gameManager.player.isPlayer = true;
 
 	while (!gameManager.isEnd)
 	{
@@ -960,31 +943,25 @@ void main()
 		gameManager.isEnd = card.GameEnd();
 
 		// 컴퓨터 플레이어 배팅여부 선택
-		player.BetOrNot();
-		computer.BetOrNot();
+		gameManager.player.BetOrNot();
+		gameManager.computer.BetOrNot();
 
 		// 컴퓨터 플레이어 배팅시 하이로우세븐 선택
-		player.SelectHighLowSeven();
-		computer.SelectHighLowSeven();
+		gameManager.player.SelectHighLowSeven();
+		gameManager.computer.SelectHighLowSeven();
 		// 컴퓨터 플레이어 선택과 카드 비교
-		player.CompareWithCurrentCard();
-		computer.CompareWithCurrentCard();
+		gameManager.CompareWithCurrentCard(card.card[card.current]);
 
 		card.PrintCardFront();
 		card.PrintCardBack();
 		// 소지금에 따라 승패나타내기
-		gameManager.user = player;
-		gameManager.CheckResult();
-		gameManager.user = computer;
 		gameManager.CheckResult();
 
 		card.current++;
-		player.card.current++;
-		computer.card.current++;
 		system("pause");
 	}
 
-	if (player.money > computer.money)
+	if (gameManager.player.money > gameManager.computer.money)
 	{
 		Gotoxy(x, y);
 		cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
@@ -998,7 +975,7 @@ void main()
 		cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
 		Gotoxy(0, 50);
 	}
-	else if (computer.money > player.money)
+	else if (gameManager.computer.money > gameManager.player.money)
 	{
 		Gotoxy(x, y);
 		cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓";
