@@ -16,11 +16,8 @@ void MainGame::Init()
 	_computer->Init();
 	_computer->_x = 87;
 
-
 	_menuX = 25;
 	_menuY = 20;
-
-	
 
 }
 
