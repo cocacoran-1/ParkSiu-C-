@@ -90,17 +90,14 @@ void main()
 		{
 			player.Hp -= monsterGroup[count][1];
 		}
-
 		cout << "플레이어 체력 :" << player.Hp << "\t";
 		cout << "몬스터 " << count + 1 << " 체력 : " << monsterGroup[count][0] << endl;
-
 		if (player.Hp == 0)
 		{
 			cout << "플레이어가 죽었습니다..." << endl;
 			cout << "잡은 몬스터 수 : " << count + 1;
 			break;
 		}
-
 	}
 	cout << "모든 몬스터를 잡았습니다 !!!" << endl;
 	cout << "잡은 몬스터 수 : " << count + 1;
