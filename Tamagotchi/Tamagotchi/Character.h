@@ -10,7 +10,9 @@ public:
 	void Init();
 	void Update(int deltaTime, char inputKey);
 	//자기자신을 그리는 함수
-	void Render();
+	void StayRender();
+	void RightRender();
+	void LeftRender();
 	//자기자신을 지우는 함수
 	void Erase();
 

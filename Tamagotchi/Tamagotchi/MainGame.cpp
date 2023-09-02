@@ -10,7 +10,7 @@ void MainGame::Init()
 	_character = new Character();
 	_character->Init();
 
-	_character->Render();
+	_character->StayRender();
 }
 
 void MainGame::Update(int deltaTime)
@@ -21,9 +21,6 @@ void MainGame::Update(int deltaTime)
 		input = _getch();
 	}
 	_character->Update(deltaTime, input);
-
-	CustomConsole.GotoXY(0, 15);
-	cout << "DeltaTime : " << deltaTime << "                 ";
 
 
 }
