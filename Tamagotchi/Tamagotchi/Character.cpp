@@ -1025,6 +1025,11 @@ void Character::RightRender()
 
 void Character::LeftRender()
 {
+	switch (_animationIndex)
+	{
+	default:
+		break;
+	}
 }
 
 void Character::Erase()
