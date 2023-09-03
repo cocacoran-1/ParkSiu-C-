@@ -10,6 +10,7 @@ public:
 	int _boradY;
 	int _textX;
 	int _textY;
+	int _currentSelect;
 
 	bool _isGameEnd;
 

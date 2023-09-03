@@ -9,8 +9,8 @@ void MainGame::Init()
 	_boradY = 41;
 	_textX = 110;
 	_textY = 43;
+	_currentSelect = 0;
 	_isGameEnd = false;
-
 	_character = new Character();
 	_character->Init();
 
@@ -20,64 +20,56 @@ void MainGame::Init()
 void MainGame::Update(int deltaTime)
 {
 	char input = '\0';
-	int currentSelect = 0;
-	SelectTextBoard(currentSelect);
-
-	bool isSelect = false;
-	while (!isSelect)
+	SelectTextBoard(_currentSelect);
+	if (_kbhit())
 	{
-		_character->Update(deltaTime, input);
-		if (_kbhit())
+		input = _getch();
+		if (input == 'w')
 		{
-			input = _getch();
-			if (input == 'w')
+			_currentSelect--;
+			if (_currentSelect < 0)
 			{
-				currentSelect--;
-				if (currentSelect < 0)
-				{
-					currentSelect = 0;
-				}
-				SelectTextBoard(currentSelect);
+				_currentSelect = 0;
 			}
-			else if (input == 's')
-			{
-				currentSelect++;
-				if (currentSelect > 2)
-				{
-					currentSelect = 2;
-				}
-				SelectTextBoard(currentSelect);
-			}
-			else if (input == '\r')
-			{
-				isSelect = true;
-				if (currentSelect == 0)
-				{
-					_character->EatFood();
-
-				}
-				else if (currentSelect == 1)
-				{
-					_character->Sleep();
-				}
-				else if (currentSelect == 2)
-				{
-					_character->EnjoyPlay();
-				}
-			}
-
+			SelectTextBoard(_currentSelect);
 		}
+		else if (input == 's')
+		{
+			_currentSelect++;
+			if (_currentSelect > 2)
+			{
+				_currentSelect = 2;
+			}
+			SelectTextBoard(_currentSelect);
+		}
+		else if (input == '\r')
+		{
+			if (_currentSelect == 0)
+			{
+				_character->EatFood();
+
+			}
+			else if (_currentSelect == 1)
+			{
+				_character->Sleep();
+			}
+			else if (_currentSelect == 2)
+			{
+				_character->EnjoyPlay();
+			}
+		}
+
 	}
 
 	_character->Update(deltaTime, input);
 
 }
 
-void MainGame::SelectTextBoard(int currentSelect)
+void MainGame::SelectTextBoard(int _currentSelect)
 {
 	CustomConsole.ClearArea(_textX, _textY, _textX + 10, _textY + 4);
 	CustomConsole.SetCursor(tvision::CURSOR_OFF);
-	CustomConsole.GotoXY(_boradX, _boradY-1);
+	CustomConsole.GotoXY(_boradX, _boradY - 1);
 	CustomConsole.SetBkColor(GRAY);
 	CustomConsole.SetTextColor(BLACK);
 	cout << "忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖";
@@ -100,31 +92,31 @@ void MainGame::SelectTextBoard(int currentSelect)
 	CustomConsole.GotoXY(_boradX, _boradY + 8);
 	cout << "戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎";
 
-	if (currentSelect == 0)
+	if (_currentSelect == 0)
 	{
 		CustomConsole.GotoXY(_textX, _textY);
 		cout << "ⅠⅡ	嫣 詳 朝 棻";
-		CustomConsole.GotoXY(_textX, _textY+2);
+		CustomConsole.GotoXY(_textX, _textY + 2);
 		cout << "	濠 楝 除 棻";
-		CustomConsole.GotoXY(_textX, _textY+4);
+		CustomConsole.GotoXY(_textX, _textY + 4);
 		cout << "	啾 楝 除 棻";
 	}
-	else if (currentSelect == 1)
+	else if (_currentSelect == 1)
 	{
 		CustomConsole.GotoXY(_textX, _textY);
 		cout << "	嫣 詳 朝 棻";
-		CustomConsole.GotoXY(_textX, _textY+2);
+		CustomConsole.GotoXY(_textX, _textY + 2);
 		cout << "ⅠⅡ	濠 楝 除 棻";
-		CustomConsole.GotoXY(_textX, _textY+4);
+		CustomConsole.GotoXY(_textX, _textY + 4);
 		cout << "	啾 楝 除 棻";
 	}
-	else if (currentSelect == 2)
+	else if (_currentSelect == 2)
 	{
 		CustomConsole.GotoXY(_textX, _textY);
 		cout << "	嫣 詳 朝 棻";
-		CustomConsole.GotoXY(_textX, _textY+2);
+		CustomConsole.GotoXY(_textX, _textY + 2);
 		cout << "	濠 楝 除 棻";
-		CustomConsole.GotoXY(_textX, _textY+4);
+		CustomConsole.GotoXY(_textX, _textY + 4);
 		cout << "ⅠⅡ	啾 楝 除 棻";
 	}
 }
