@@ -6,10 +6,14 @@ public:
 	int _x, _y;
 	int _animationIndex;
 	int _animationTime;
+	bool isStay;
+	bool moveLeft;
+	bool moveRight;
 
 	void Init();
 	void Update(int deltaTime, char inputKey);
 	//자기자신을 그리는 함수
+	void Direction();
 	void StayRender();
 	void RightRender();
 	void LeftRender();
