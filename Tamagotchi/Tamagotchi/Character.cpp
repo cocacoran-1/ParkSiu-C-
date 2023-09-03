@@ -10,10 +10,13 @@ void SetPixelColor(DWORD color)
 
 void Character::Init()
 {
-	_x = 40;
-	_y = 10;
+	_x = 110;
+	_y = 15;
 	_animationIndex = 0;
 	_animationTime = 0;
+	_foodGauge = 50;
+	_fatigueGauge = 0;
+	_happinessGauge = 0;
 	isStay = true;
 	moveLeft = false;
 	moveRight = false;
@@ -22,7 +25,7 @@ void Character::Init()
 void Character::Update(int deltaTime, char inputKey)
 {
 	//캐릭터 애니메이션 코드
-
+	Status();
 	_animationTime += deltaTime;
 	if (300 < _animationTime)
 	{
@@ -1572,6 +1575,71 @@ void Character::LeftRender()
 void Character::Erase()
 {
 	CustomConsole.ClearScreen(GRAY);
+}
+
+void Character::EatFood()
+{
+	_foodGauge += 20;
+	int _textX = 105;
+	int _textY = 43;
+	CustomConsole.GotoXY(_textX, _textY + 2);
+	if (_foodGauge > 100)
+	{
+		_foodGauge = 100;
+		cout << "더이상 먹고 싶지 않아...";
+	}
+	else
+	{
+		cout << "음~~~ 맛있는 음식~~~";
+		_happinessGauge += 10;
+	}
+}
+
+void Character::Sleep()
+{
+	_fatigueGauge += 20;
+	int _textX = 105;
+	int _textY = 43;
+	CustomConsole.GotoXY(_textX, _textY + 2);
+	if (_fatigueGauge > 100)
+	{
+		_fatigueGauge = 100;
+		cout << "아직 자고 싶지 않아...";
+	}
+	else
+	{
+		cout << "..zzZ";
+		_happinessGauge += 10;
+	}
+}
+
+void Character::EnjoyPlay()
+{
+	_fatigueGauge -= 20;
+	int _textX = 105;
+	int _textY = 43;
+	CustomConsole.GotoXY(_textX, _textY + 2);
+	if (_fatigueGauge <= 0)
+	{
+		cout << "피곤해서 움직이고 싶지 않아 ㅠㅠ...";
+	}
+	else if (_foodGauge <= 0)
+	{
+		cout << "배고파서 움직일 힘이 없어 ㅠㅠ...";
+	}
+	else
+	{
+		cout << "신나는 놀이 시간 ^ ㅡ ^";
+		_happinessGauge += 10;
+	}
+}
+
+void Character::Status()
+{
+	CustomConsole.ClearArea(0, 0, 10, 2);
+	CustomConsole.GotoXY(0, 0); cout << "행복도 : " << _happinessGauge;
+	CustomConsole.GotoXY(0, 1); cout << "포만감 : " << _foodGauge;
+	CustomConsole.GotoXY(0, 2); cout << "피로도 : " << _fatigueGauge;
 }
 
 void Character::Release()

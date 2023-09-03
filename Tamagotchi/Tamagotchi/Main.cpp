@@ -6,7 +6,7 @@ void main()
 {
 	CustomConsole.SetTitle("TamaGotchi");
 	CustomConsole.ClearScreen(GRAY);
-	CustomConsole.SetCursor(tvision::CURSOR_OFF);
+
 	
 	MainGame* mainGame = new MainGame();
 	mainGame->Init();
@@ -16,6 +16,7 @@ void main()
 	while (false == mainGame->IsGameEnd())
 	{
 		long currentTick = GetTickCount64();
+
 		mainGame->Update(currentTick - prevTick);
 		prevTick = currentTick;
 	}

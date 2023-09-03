@@ -6,6 +6,9 @@ public:
 	int _x, _y;
 	int _animationIndex;
 	int _animationTime;
+	int _foodGauge;
+	int _fatigueGauge;
+	int _happinessGauge;
 	bool isStay;
 	bool moveLeft;
 	bool moveRight;
@@ -19,7 +22,10 @@ public:
 	void LeftRender();
 	//자기자신을 지우는 함수
 	void Erase();
-
+	void EatFood();
+	void Sleep();
+	void EnjoyPlay();
+	void Status();
 	void Release();
 };
 
