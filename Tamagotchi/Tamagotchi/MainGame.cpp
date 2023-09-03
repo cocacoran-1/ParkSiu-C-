@@ -57,8 +57,8 @@ void MainGame::Update(int deltaTime)
 			{
 				_character->EnjoyPlay();
 			}
+			_character->LevelUp();
 		}
-
 	}
 
 	_character->Update(deltaTime, input);

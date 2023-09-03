@@ -9,6 +9,9 @@ public:
 	int _foodGauge;
 	int _fatigueGauge;
 	int _happinessGauge;
+	int _textX ;
+	int _textY;
+	int _level;
 	bool isStay;
 	bool moveLeft;
 	bool moveRight;
@@ -25,6 +28,7 @@ public:
 	void EatFood();
 	void Sleep();
 	void EnjoyPlay();
+	void LevelUp();
 	void Status();
 	void Release();
 };
