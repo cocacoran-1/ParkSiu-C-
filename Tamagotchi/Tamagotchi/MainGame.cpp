@@ -48,17 +48,18 @@ void MainGame::Update(int deltaTime)
 			switch (_currentSelect)
 			{
 			case 0:
-				_character->EatFood();
+				_character->EatFood(1);
 				break;
 			case 1:
-				_character->Sleep();
+				_character->Sleep(2);
 				break;
 			case 2:
-				_character->EnjoyPlay();
+				_character->EnjoyPlay(3);
 				break;
 			default:
 				break;
 			}
+			_character->LevelUp(4);
 		}
 		CleanBoard();
 		SelectTextBoard(_currentSelect);

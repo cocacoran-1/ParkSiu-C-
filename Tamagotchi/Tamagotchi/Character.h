@@ -15,6 +15,7 @@ public:
 	int _textX ;
 	int _textY;
 	int _level;
+	int _type;
 	bool isStay;
 	bool moveLeft;
 	bool moveRight;
@@ -23,15 +24,16 @@ public:
 	void Update(int deltaTime, char inputKey);
 	//자기자신을 그리는 함수
 	void Direction();
+	void Animation(int index);
 	void StayRender();
 	void RightRender();
 	void LeftRender();
 	//자기자신을 지우는 함수
 	void Erase();
-	void EatFood( );
-	void Sleep( );
-	void EnjoyPlay( );
-	void LevelUp( );
+	void EatFood(int type);
+	void Sleep(int type);
+	void EnjoyPlay(int type);
+	void LevelUp(int type);
 	void Status();
 	void Release();
 };
