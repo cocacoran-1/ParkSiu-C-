@@ -5,12 +5,12 @@
 void main()
 {
 	CustomConsole.SetTitle("TamaGotchi");
-	CustomConsole.ClearScreen(GRAY);
-
 	
 	MainGame* mainGame = new MainGame();
 	mainGame->Init();
 
+	system("pause");
+	system("cls");
 	long prevTick = GetTickCount64();
 	long currentTick = GetTickCount64();
 	while (false == mainGame->IsGameEnd())

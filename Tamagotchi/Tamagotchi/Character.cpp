@@ -16,8 +16,9 @@ void Character::Init()
 	_textY = 43;
 	_animationIndex = 0;
 	_animationTime = 0;
+	_showTextTime = 0;
 	_foodGauge = 50;
-	_fatigueGauge = 0;
+	_activityGauge = 0;
 	_happinessGauge = 0;
 	_level = 0;
 	isStay = true;
@@ -32,6 +33,7 @@ void Character::Update(int deltaTime, char inputKey)
 	_animationTime += deltaTime;
 	if (300 < _animationTime)
 	{
+
 		if (isStay)
 		{
 			if (_animationIndex == 9)
@@ -78,6 +80,7 @@ void Character::Update(int deltaTime, char inputKey)
 		}
 
 	}
+
 
 }
 
@@ -1577,13 +1580,22 @@ void Character::LeftRender()
 
 void Character::Erase()
 {
-	CustomConsole.ClearScreen(GRAY);
-}
+	_showTextTime++;
+	CustomConsole.ClearArea(_x - 2, _y, _x + 10, _y + 12);
 
+	if (_showTextTime == 5)
+	{
+		CustomConsole.ClearArea(_textX+5 , _textY - 7, _textX + 55, _textY - 7);
+		_showTextTime = 0;
+	}
+
+
+}
 void Character::EatFood()
 {
 	_foodGauge += 20;
-	CustomConsole.GotoXY(_textX, _textY + 2);
+	bool isEat = false;
+	CustomConsole.GotoXY(_textX+5 , _textY-7);
 	if (_foodGauge > 100)
 	{
 		_foodGauge = 100;
@@ -1592,21 +1604,34 @@ void Character::EatFood()
 	else
 	{
 		cout << "음~~~ 맛있는 음식~~~";
-		_happinessGauge += 10;
+		isEat = true;
 	}
+	if (isEat)
+	{
+		_happinessGauge += 20;
+	}
+
 }
 
 void Character::Sleep()
 {
-	_fatigueGauge += 20;
-	CustomConsole.GotoXY(_textX, _textY + 2);
-	if (_fatigueGauge > 100)
+	_activityGauge += 20;
+	_foodGauge -= 30;
+	if (_activityGauge > 100)
 	{
-		_fatigueGauge = 100;
+		_activityGauge = 100;
+		CustomConsole.GotoXY(_textX + 5, _textY - 7);
 		cout << "아직 자고 싶지 않아...";
+	}
+	else if (_foodGauge < 0)
+	{
+		CustomConsole.GotoXY(_textX + 10, _textY - 7);
+		_foodGauge = 0;
+		cout << "배고파...";
 	}
 	else
 	{
+		CustomConsole.GotoXY(_textX + 10, _textY - 7);
 		cout << "..zzZ";
 		_happinessGauge += 10;
 	}
@@ -1614,18 +1639,22 @@ void Character::Sleep()
 
 void Character::EnjoyPlay()
 {
-	_fatigueGauge -= 20;
-	CustomConsole.GotoXY(_textX, _textY + 2);
-	if (_fatigueGauge <= 0)
+	_activityGauge -= 20;
+	if (_activityGauge < 0)
 	{
-		cout << "피곤해서 움직이고 싶지 않아 ㅠㅠ...";
+		CustomConsole.GotoXY(_textX + 10, _textY - 7);
+		_activityGauge = 0;
+		cout << "피곤해...";
 	}
-	else if (_foodGauge <= 0)
+	else if (_foodGauge < 0)
 	{
-		cout << "배고파서 움직일 힘이 없어 ㅠㅠ...";
+		CustomConsole.GotoXY(_textX + 10, _textY - 7);
+		_foodGauge = 0;
+		cout << "배고파...";
 	}
 	else
 	{
+		CustomConsole.GotoXY(_textX + 5, _textY - 7);
 		cout << "신나는 놀이 시간 ^ ㅡ ^";
 		_happinessGauge += 10;
 	}
@@ -1637,18 +1666,27 @@ void Character::LevelUp()
 	{
 		_happinessGauge -= 100;
 		_level++;
-		CustomConsole.GotoXY(_textX, _textY + 2);
+		CustomConsole.GotoXY(_textX + 10, _textY - 7);
 		cout << "레 벨 업!!";
 	}
 }
 
 void Character::Status()
 {
-	CustomConsole.ClearArea(0, 0, 10, 3);
-	CustomConsole.GotoXY(0, 0); cout << "레벨 : " << _level + 1;
-	CustomConsole.GotoXY(0, 1); cout << "행복도 : " << _happinessGauge;
-	CustomConsole.GotoXY(0, 2); cout << "포만감 : " << _foodGauge;
-	CustomConsole.GotoXY(0, 3); cout << "피로도 : " << _fatigueGauge;
+	CustomConsole.ClearArea(0, 0, 15, 3);
+
+	CustomConsole.GotoXY(0, 0); cout << "┌────────────────────┐";
+	CustomConsole.GotoXY(0, 1); cout << "│                    │";
+	CustomConsole.GotoXY(0, 2); cout << "│                    │";
+	CustomConsole.GotoXY(0, 3); cout << "│                    │";
+	CustomConsole.GotoXY(0, 4); cout << "│                    │";
+	CustomConsole.GotoXY(0, 5); cout << "│                    │";
+	CustomConsole.GotoXY(0, 6); cout << "│                    │";
+	CustomConsole.GotoXY(0, 7); cout << "└────────────────────┘";
+	CustomConsole.GotoXY(2, 1); cout << "레벨 : " << _level + 1;
+	CustomConsole.GotoXY(2, 3); cout << "행복도 : " << _happinessGauge;
+	CustomConsole.GotoXY(2, 4); cout << "포만감 : " << _foodGauge;
+	CustomConsole.GotoXY(2, 5); cout << "활동력 : " << _activityGauge;
 }
 
 void Character::Release()

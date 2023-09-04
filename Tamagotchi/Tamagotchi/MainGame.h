@@ -17,6 +17,7 @@ public:
 	void Init();
 	void Update(int deltaTime);
 	void SelectTextBoard(int currentSelect);
+	void CleanBoard();
 	void Release();
 
 	bool IsGameEnd();

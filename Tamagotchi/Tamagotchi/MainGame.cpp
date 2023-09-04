@@ -21,6 +21,8 @@ void MainGame::Update(int deltaTime)
 {
 	char input = '\0';
 	SelectTextBoard(_currentSelect);
+	CustomConsole.SetCursor(tvision::CURSOR_OFF);
+
 	if (_kbhit())
 	{
 		input = _getch();
@@ -31,7 +33,6 @@ void MainGame::Update(int deltaTime)
 			{
 				_currentSelect = 0;
 			}
-			SelectTextBoard(_currentSelect);
 		}
 		else if (input == 's')
 		{
@@ -40,25 +41,26 @@ void MainGame::Update(int deltaTime)
 			{
 				_currentSelect = 2;
 			}
-			SelectTextBoard(_currentSelect);
 		}
 		else if (input == '\r')
 		{
-			if (_currentSelect == 0)
+			switch (_currentSelect)
 			{
+			case 0:
 				_character->EatFood();
-
-			}
-			else if (_currentSelect == 1)
-			{
+				break;
+			case 1:
 				_character->Sleep();
-			}
-			else if (_currentSelect == 2)
-			{
+				break;
+			case 2:
 				_character->EnjoyPlay();
+				break;
+			default:
+				break;
 			}
-			_character->LevelUp();
 		}
+		CleanBoard();
+		SelectTextBoard(_currentSelect);
 	}
 
 	_character->Update(deltaTime, input);
@@ -67,11 +69,8 @@ void MainGame::Update(int deltaTime)
 
 void MainGame::SelectTextBoard(int _currentSelect)
 {
-	CustomConsole.ClearArea(_textX, _textY, _textX + 10, _textY + 4);
-	CustomConsole.SetCursor(tvision::CURSOR_OFF);
 	CustomConsole.GotoXY(_boradX, _boradY - 1);
-	CustomConsole.SetBkColor(GRAY);
-	CustomConsole.SetTextColor(BLACK);
+	CustomConsole.SetTextColor(WHITE);
 	cout << "忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖";
 	CustomConsole.GotoXY(_boradX, _boradY);
 	cout << "弛                                                                                                                      弛";
@@ -126,6 +125,11 @@ void MainGame::Release()
 	_character->Release();
 	delete _character;
 	_character = nullptr;
+}
+
+void MainGame::CleanBoard()
+{
+	CustomConsole.ClearArea(_boradX, _boradY-1, _boradX + 170, _boradX + 8);
 }
 
 bool MainGame::IsGameEnd()
