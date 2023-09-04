@@ -49,6 +49,7 @@ void Character::Update(int deltaTime, char inputKey)
 			else
 			{
 				cout << "맛있는 음식~~~";
+				HeartRender();
 			}
 			break;
 		case 2:
@@ -81,6 +82,7 @@ void Character::Update(int deltaTime, char inputKey)
 			else
 			{
 				cout << "신나는 놀이 시간 ^ ㅡ ^";
+				HeartRender();
 			}
 			break;
 		case 4:
@@ -1639,6 +1641,16 @@ void Character::LeftRender()
 	}
 }
 
+void Character::HeartRender()
+{
+	CustomConsole.ClearArea(_x + 20, _y - 5, _x + 44, _y - 2);
+	CustomConsole.GotoXY(_x+30, _y-5); SetPixelColor(RED);
+	CustomConsole.GotoXY(_x + 34, _y - 5); SetPixelColor(RED);
+	CustomConsole.GotoXY(_x + 28, _y - 4); SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);
+	CustomConsole.GotoXY(_x + 30, _y - 3); SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);
+	CustomConsole.GotoXY(_x + 32, _y - 2); SetPixelColor(RED);
+}
+
 void Character::Erase()
 {
 	_showTextTime++;
@@ -1647,6 +1659,7 @@ void Character::Erase()
 	if (_showTextTime == 5)
 	{
 		CustomConsole.ClearArea(_textX + 5, _textY - 7, _textX + 55, _textY - 7);
+		CustomConsole.ClearArea(_x + 30, _y - 5, _x + 44, _y - 2);
 		_showTextTime = 0;
 	}
 }

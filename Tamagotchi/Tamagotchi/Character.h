@@ -15,7 +15,7 @@ public:
 	int _textX ;
 	int _textY;
 	int _level;
-	int _type;
+	int _movementType;
 	bool isStay;
 	bool moveLeft;
 	bool moveRight;
@@ -28,6 +28,7 @@ public:
 	void StayRender();
 	void RightRender();
 	void LeftRender();
+	void HeartRender();
 	//자기자신을 지우는 함수
 	void Erase();
 	void EatFood(int type);
