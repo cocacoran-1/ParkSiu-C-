@@ -26,6 +26,7 @@ void MainGame::Update(int deltaTime)
 	if (_kbhit())
 	{
 		input = _getch();
+		
 		if (input == 'w')
 		{
 			_currentSelect--;

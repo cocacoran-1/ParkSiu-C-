@@ -31,9 +31,8 @@ void Character::Update(int deltaTime, char inputKey)
 	Status();
 	//캐릭터 애니메이션 코드
 	_animationTime += deltaTime;
-	if (300 < _animationTime)
+	if (200 < _animationTime)
 	{
-
 		if (isStay)
 		{
 			if (_animationIndex == 9)
@@ -58,6 +57,11 @@ void Character::Update(int deltaTime, char inputKey)
 			if (_animationIndex % 2 == 0)
 			{
 				_x++;
+				// 오른쪽 최대 이동범위
+				if (_x >= 210)
+				{
+					_x = 210;
+				}
 			}
 			Erase();
 			RightRender();
@@ -74,6 +78,11 @@ void Character::Update(int deltaTime, char inputKey)
 			if (_animationIndex % 2 == 0)
 			{
 				_x--;
+				// 왼쪽 최대 이동 범위
+				if (_x <= 2)
+				{
+					_x = 2;
+				}
 			}
 			Erase();
 			LeftRender();
@@ -86,7 +95,7 @@ void Character::Update(int deltaTime, char inputKey)
 
 void Character::Direction()
 {
-	int random = rand() % 3;
+	int random = rand()	% 3;
 	// 정지 
 	if (random == 0)
 	{

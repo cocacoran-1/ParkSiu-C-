@@ -16,7 +16,7 @@ void main()
 	while (false == mainGame->IsGameEnd())
 	{
 		long currentTick = GetTickCount64();
-
+		
 		mainGame->Update(currentTick - prevTick);
 		prevTick = currentTick;
 	}
