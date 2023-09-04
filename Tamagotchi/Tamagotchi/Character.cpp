@@ -21,7 +21,7 @@ void Character::Init()
 	_activityGauge = 0;
 	_happinessGauge = 0;
 	_level = 0;
-	_type = 0;
+	_movementType = 0;
 	isStay = true;
 	moveLeft = false;
 	moveRight = false;
@@ -34,7 +34,7 @@ void Character::Update(int deltaTime, char inputKey)
 	_animationTime += deltaTime;
 	if (200 < _animationTime)
 	{
-		switch (_type)
+		switch (_movementType)
 		{
 		case 0:
 			CustomConsole.ClearArea(_x + 28, _y + 1, _x + 60, _y + 1);
@@ -165,7 +165,7 @@ void Character::Animation(int index)
 	}
 	if (_animationIndex == index)
 	{
-		_type = 0;
+		_movementType = 0;
 	}
 	_animationTime = 0;
 	_animationIndex++;
@@ -1654,7 +1654,7 @@ void Character::Erase()
 void Character::EatFood(int type)
 {
 	_foodGauge += 20;
-	_type = type;
+	_movementType = type;
 	if (_foodGauge > 100)
 	{
 		_foodGauge = 100;
@@ -1666,7 +1666,7 @@ void Character::Sleep(int type)
 {
 	_activityGauge += 20;
 	_foodGauge -= 30;
-	_type = type;
+	_movementType = type;
 
 	if (_activityGauge > 100)
 	{
@@ -1686,7 +1686,7 @@ void Character::Sleep(int type)
 void Character::EnjoyPlay(int type)
 {
 	_activityGauge -= 20;
-	_type = type;
+	_movementType = type;
 
 	if (_activityGauge < 0)
 	{
@@ -1706,7 +1706,7 @@ void Character::LevelUp(int type)
 {
 	if (_happinessGauge >= 100)
 	{
-		_type = type;
+		_movementType = type;
 		_happinessGauge -= 100;
 		_level++;
 	}
