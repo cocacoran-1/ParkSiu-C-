@@ -5,7 +5,7 @@
 void main()
 {
 	CustomConsole.SetTitle("TamaGotchi");
-	
+
 	MainGame* mainGame = new MainGame();
 	mainGame->Init();
 
