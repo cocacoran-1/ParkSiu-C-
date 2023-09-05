@@ -25,7 +25,6 @@ void Character::Init()
 	_level = 0;
 	_textType = 0;
 	_movementType = 0;
-
 }
 
 void Character::Update(int deltaTime, char inputKey)
@@ -43,14 +42,13 @@ void Character::Update(int deltaTime, char inputKey)
 		case 1:
 			CustomConsole.ClearArea(_x + 28, _y + 1, _x + 60, _y + 1);
 			CustomConsole.GotoXY(_x + 30, _y + 1);
-			if (_foodGauge > 100)
+			if (_foodGauge >= 100)
 			{
 				cout << "더이상 먹고 싶지 않아...";
 			}
 			else
 			{
 				cout << "맛있는 음식~~~";
-				HeartRender();
 			}
 			break;
 		case 2:
@@ -83,7 +81,6 @@ void Character::Update(int deltaTime, char inputKey)
 			else
 			{
 				cout << "신나는 놀이 시간 ^ ㅡ ^";
-				HeartRender();
 			}
 			break;
 		case 4:
@@ -1624,13 +1621,18 @@ void Character::LeftRender()
 
 void Character::HeartRender()
 {
-	CustomConsole.ClearArea(_shapeX + 30, _shapeY - 5, _shapeX + 54, _shapeY - 2);
+	CustomConsole.ClearArea(_shapeX + 40, _shapeY - 10, _shapeX + 70, _shapeY - 4);
 
-	CustomConsole.GotoXY(_shapeX + 40, _shapeY - 5); SetPixelColor(RED);
-	CustomConsole.GotoXY(_shapeX + 44, _shapeY - 5); SetPixelColor(RED);
-	CustomConsole.GotoXY(_shapeX + 38, _shapeY - 4); SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);
-	CustomConsole.GotoXY(_shapeX + 40, _shapeY - 3); SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);
-	CustomConsole.GotoXY(_shapeX + 42, _shapeY - 2); SetPixelColor(RED);
+	CustomConsole.GotoXY(_shapeX + 40, _shapeY - 8); 
+	SetPixelColor(RED);
+	CustomConsole.GotoXY(_shapeX + 44, _shapeY - 8); 
+	SetPixelColor(RED);
+	CustomConsole.GotoXY(_shapeX + 38, _shapeY - 7);
+	SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);
+	CustomConsole.GotoXY(_shapeX + 40, _shapeY - 6);
+	SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);
+	CustomConsole.GotoXY(_shapeX + 42, _shapeY - 5);
+	SetPixelColor(RED);
 }
 
 void Character::Erase()
