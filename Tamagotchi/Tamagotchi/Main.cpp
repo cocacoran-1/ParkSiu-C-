@@ -7,9 +7,9 @@ void main()
 	CustomConsole.SetTitle("TamaGotchi");
 	CustomConsole.SetWindowSize(240, 63);
 	CustomConsole.SetScreenFufferSize(240, 63);
+
 	MainGame* mainGame = new MainGame();
 	mainGame->Init();
-
 
 	long prevTick = GetTickCount64();
 	long currentTick = GetTickCount64();

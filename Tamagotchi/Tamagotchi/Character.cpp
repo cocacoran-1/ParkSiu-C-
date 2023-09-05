@@ -1712,7 +1712,8 @@ void Character::LevelUp(int index)
 
 void Character::Status()
 {
-	CustomConsole.ClearArea(2, 1, 10, 5);
+	CustomConsole.ClearArea(2, 1, 15, 5);
+	CustomConsole.SetCursor(tvision::CURSOR_OFF);
 	CustomConsole.GotoXY(1, 1); cout << "忙式式式式式式式式式式式式式式式式式式式式忖";
 	CustomConsole.GotoXY(1, 2); cout << "弛                    弛";
 	CustomConsole.GotoXY(1, 3); cout << "弛                    弛";
