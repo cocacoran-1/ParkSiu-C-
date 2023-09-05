@@ -31,7 +31,7 @@ void Character::Update(int deltaTime, char inputKey)
 {
 	//캐릭터 애니메이션 코드
 	_animationTime += deltaTime;
-	if (1000 < _animationTime)
+	if (300 < _animationTime)
 	{
 		Status();
 
