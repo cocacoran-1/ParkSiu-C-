@@ -31,9 +31,10 @@ void Character::Update(int deltaTime, char inputKey)
 {
 	//캐릭터 애니메이션 코드
 	_animationTime += deltaTime;
-	if (300 < _animationTime)
+	if (1000 < _animationTime)
 	{
 		Status();
+
 		switch (_textType)
 		{
 		case 0:
@@ -1711,20 +1712,19 @@ void Character::LevelUp(int index)
 
 void Character::Status()
 {
-	CustomConsole.ClearArea(0, 0, 15, 3);
-	CustomConsole.SetCursor(tvision::CURSOR_OFF);
-	CustomConsole.GotoXY(0, 0); cout << "┌────────────────────┐";
-	CustomConsole.GotoXY(0, 1); cout << "│                    │";
-	CustomConsole.GotoXY(0, 2); cout << "│                    │";
-	CustomConsole.GotoXY(0, 3); cout << "│                    │";
-	CustomConsole.GotoXY(0, 4); cout << "│                    │";
-	CustomConsole.GotoXY(0, 5); cout << "│                    │";
-	CustomConsole.GotoXY(0, 6); cout << "│                    │";
-	CustomConsole.GotoXY(0, 7); cout << "└────────────────────┘";
-	CustomConsole.GotoXY(2, 1); cout << "레벨 : " << _level + 1;
-	CustomConsole.GotoXY(2, 3); cout << "행복도 : " << _happinessGauge;
-	CustomConsole.GotoXY(2, 4); cout << "포만감 : " << _foodGauge;
-	CustomConsole.GotoXY(2, 5); cout << "활동력 : " << _activityGauge;
+	CustomConsole.ClearArea(2, 1, 10, 5);
+	CustomConsole.GotoXY(1, 1); cout << "┌────────────────────┐";
+	CustomConsole.GotoXY(1, 2); cout << "│                    │";
+	CustomConsole.GotoXY(1, 3); cout << "│                    │";
+	CustomConsole.GotoXY(1, 4); cout << "│                    │";
+	CustomConsole.GotoXY(1, 5); cout << "│                    │";
+	CustomConsole.GotoXY(1, 6); cout << "│                    │";
+	CustomConsole.GotoXY(1, 7); cout << "│                    │";
+	CustomConsole.GotoXY(1, 8); cout << "└────────────────────┘";
+	CustomConsole.GotoXY(3, 2); cout << "레벨 : " << _level + 1;
+	CustomConsole.GotoXY(3, 4); cout << "행복도 : " << _happinessGauge;
+	CustomConsole.GotoXY(3, 5); cout << "포만감 : " << _foodGauge;
+	CustomConsole.GotoXY(3, 6); cout << "활동력 : " << _activityGauge;
 }
 
 void Character::Release()
