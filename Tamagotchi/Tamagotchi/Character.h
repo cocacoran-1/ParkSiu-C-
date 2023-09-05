@@ -1,24 +1,29 @@
 #pragma once
 //#include "MainGame.h"
 
+enum eMovement
+{
+	STAY,
+	RIGHT,
+	LEFT,
+	END
+};
 
 class Character
 {
 public:
 	int _x, _y;
+	int _shapeX, _shapeY;
+	int _textX, _textY;
 	int _animationIndex;
 	int _animationTime;
 	int _showTextTime;
 	int _foodGauge;
 	int _activityGauge;
 	int _happinessGauge;
-	int _textX ;
-	int _textY;
 	int _level;
+	int _textType;
 	int _movementType;
-	bool isStay;
-	bool moveLeft;
-	bool moveRight;
 
 	void Init();
 	void Update(int deltaTime, char inputKey);
@@ -31,10 +36,10 @@ public:
 	void HeartRender();
 	//자기자신을 지우는 함수
 	void Erase();
-	void EatFood(int type);
-	void Sleep(int type);
-	void EnjoyPlay(int type);
-	void LevelUp(int type);
+	void EatFood(int index);
+	void Sleep(int index);
+	void EnjoyPlay(int index);
+	void LevelUp(int index);
 	void Status();
 	void Release();
 };

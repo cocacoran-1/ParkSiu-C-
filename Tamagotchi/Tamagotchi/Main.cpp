@@ -5,7 +5,8 @@
 void main()
 {
 	CustomConsole.SetTitle("TamaGotchi");
-
+	CustomConsole.SetWindowSize(240, 63);
+	CustomConsole.SetScreenFufferSize(240, 63);
 	MainGame* mainGame = new MainGame();
 	mainGame->Init();
 

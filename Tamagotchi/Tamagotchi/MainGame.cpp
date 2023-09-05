@@ -20,28 +20,31 @@ void MainGame::Init()
 void MainGame::Update(int deltaTime)
 {
 	char input = '\0';
-	SelectTextBoard(_currentSelect);
 	CustomConsole.SetCursor(tvision::CURSOR_OFF);
 
 	if (_kbhit())
 	{
 		input = _getch();
 		
-		if (input == 'w')
+		if (input == 'w' || input == 'W')
 		{
 			_currentSelect--;
 			if (_currentSelect < 0)
 			{
 				_currentSelect = 0;
 			}
+			CleanBoard();
+			SelectTextBoard(_currentSelect);
 		}
-		else if (input == 's')
+		else if (input == 's' || input == 'S')
 		{
 			_currentSelect++;
 			if (_currentSelect > 2)
 			{
 				_currentSelect = 2;
 			}
+			CleanBoard();
+			SelectTextBoard(_currentSelect);
 		}
 		else if (input == '\r')
 		{
@@ -60,13 +63,12 @@ void MainGame::Update(int deltaTime)
 				break;
 			}
 			_character->LevelUp(4);
+			CleanBoard();
+			SelectTextBoard(_currentSelect);
 		}
-		CleanBoard();
-		SelectTextBoard(_currentSelect);
 	}
 
 	_character->Update(deltaTime, input);
-
 }
 
 void MainGame::SelectTextBoard(int _currentSelect)
@@ -131,7 +133,7 @@ void MainGame::Release()
 
 void MainGame::CleanBoard()
 {
-	CustomConsole.ClearArea(_boradX, _boradY-1, _boradX + 170, _boradX + 8);
+	CustomConsole.ClearArea(_textX, _textY, _textX+20, _textY + 4);
 }
 
 bool MainGame::IsGameEnd()

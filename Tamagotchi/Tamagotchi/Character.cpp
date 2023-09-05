@@ -12,6 +12,8 @@ void Character::Init()
 {
 	_x = 110;
 	_y = 15;
+	_shapeX = 110;
+	_shapeY = 15;
 	_textX = 105;
 	_textY = 43;
 	_animationIndex = 0;
@@ -21,20 +23,19 @@ void Character::Init()
 	_activityGauge = 0;
 	_happinessGauge = 0;
 	_level = 0;
+	_textType = 0;
 	_movementType = 0;
-	isStay = true;
-	moveLeft = false;
-	moveRight = false;
+
 }
 
 void Character::Update(int deltaTime, char inputKey)
 {
-	Status();
 	//캐릭터 애니메이션 코드
 	_animationTime += deltaTime;
-	if (200 < _animationTime)
+	if (300 < _animationTime)
 	{
-		switch (_movementType)
+		Status();
+		switch (_textType)
 		{
 		case 0:
 			CustomConsole.ClearArea(_x + 28, _y + 1, _x + 60, _y + 1);
@@ -93,41 +94,43 @@ void Character::Update(int deltaTime, char inputKey)
 		default:
 			break;
 		}
-		if (isStay)
+		// 이동 방향
+		switch (_movementType)
 		{
+		case eMovement::STAY:
 			Animation(9);
-			Erase();
 			StayRender();
-		}
-		else if (moveRight)
-		{
+			break;
+		case eMovement::LEFT:
 			Animation(10);
 			if (_animationIndex % 2 == 0)
 			{
 				_x++;
+				_shapeX++;
 				// 오른쪽 최대 이동범위
 				if (_x >= 210)
 				{
 					_x = 210;
 				}
 			}
-			Erase();
 			RightRender();
-		}
-		else if (moveLeft)
-		{
+			break;
+		case eMovement::RIGHT:
 			Animation(10);
 			if (_animationIndex % 2 == 0)
 			{
 				_x--;
+				_shapeX--;
 				// 왼쪽 최대 이동 범위
 				if (_x <= 2)
 				{
 					_x = 2;
 				}
 			}
-			Erase();
 			LeftRender();
+			break;
+		default:
+			break;
 		}
 	}
 }
@@ -135,43 +138,21 @@ void Character::Update(int deltaTime, char inputKey)
 void Character::Direction()
 {
 	int random = rand() % 3;
-	// 정지 
-	if (random == 0)
-	{
-		isStay = true;
-		moveLeft = false;
-		moveRight = false;
-	}
-	// 왼쪽 이동
-	else if (random == 1)
-	{
-		isStay = false;
-		moveLeft = true;
-		moveRight = false;
-	}
-	// 오른쪽 이동
-	else if (random == 2)
-	{
-		isStay = false;
-		moveLeft = false;
-		moveRight = true;
-	}
-
+	_movementType = random;
 }
 
 void Character::Animation(int index)
 {
 	if (_animationIndex == index)
 	{
+		_textType = 0;
 		Direction();
 	}
-	if (_animationIndex == index)
-	{
-		_movementType = 0;
-	}
+
 	_animationTime = 0;
 	_animationIndex++;
 	_animationIndex %= index + 1;
+	Erase();
 }
 
 void Character::StayRender()
@@ -1643,18 +1624,19 @@ void Character::LeftRender()
 
 void Character::HeartRender()
 {
-	CustomConsole.ClearArea(_x + 20, _y - 5, _x + 44, _y - 2);
-	CustomConsole.GotoXY(_x+30, _y-5); SetPixelColor(RED);
-	CustomConsole.GotoXY(_x + 34, _y - 5); SetPixelColor(RED);
-	CustomConsole.GotoXY(_x + 28, _y - 4); SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);
-	CustomConsole.GotoXY(_x + 30, _y - 3); SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);
-	CustomConsole.GotoXY(_x + 32, _y - 2); SetPixelColor(RED);
+	CustomConsole.ClearArea(_shapeX + 30, _shapeY - 5, _shapeX + 54, _shapeY - 2);
+
+	CustomConsole.GotoXY(_shapeX + 40, _shapeY - 5); SetPixelColor(RED);
+	CustomConsole.GotoXY(_shapeX + 44, _shapeY - 5); SetPixelColor(RED);
+	CustomConsole.GotoXY(_shapeX + 38, _shapeY - 4); SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);
+	CustomConsole.GotoXY(_shapeX + 40, _shapeY - 3); SetPixelColor(RED);SetPixelColor(RED);SetPixelColor(RED);
+	CustomConsole.GotoXY(_shapeX + 42, _shapeY - 2); SetPixelColor(RED);
 }
 
 void Character::Erase()
 {
 	_showTextTime++;
-	CustomConsole.ClearArea(_x - 2, _y, _x + 10, _y + 12);
+	CustomConsole.ClearArea(_x - 2, _y-1, _x + 10, _y + 12);
 
 	if (_showTextTime == 5)
 	{
@@ -1664,10 +1646,10 @@ void Character::Erase()
 	}
 }
 
-void Character::EatFood(int type)
+void Character::EatFood(int index)
 {
 	_foodGauge += 20;
-	_movementType = type;
+	_textType = index;
 	if (_foodGauge > 100)
 	{
 		_foodGauge = 100;
@@ -1675,11 +1657,11 @@ void Character::EatFood(int type)
 	_happinessGauge += 20;
 }
 
-void Character::Sleep(int type)
+void Character::Sleep(int index)
 {
 	_activityGauge += 20;
 	_foodGauge -= 30;
-	_movementType = type;
+	_textType = index;
 
 	if (_activityGauge > 100)
 	{
@@ -1696,10 +1678,10 @@ void Character::Sleep(int type)
 	}
 }
 
-void Character::EnjoyPlay(int type)
+void Character::EnjoyPlay(int index)
 {
 	_activityGauge -= 20;
-	_movementType = type;
+	_textType = index;
 
 	if (_activityGauge < 0)
 	{
@@ -1715,11 +1697,11 @@ void Character::EnjoyPlay(int type)
 	}
 }
 
-void Character::LevelUp(int type)
+void Character::LevelUp(int index)
 {
 	if (_happinessGauge >= 100)
 	{
-		_movementType = type;
+		_textType = index;
 		_happinessGauge -= 100;
 		_level++;
 	}
