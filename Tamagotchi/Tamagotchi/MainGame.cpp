@@ -75,25 +75,25 @@ void MainGame::SelectTextBoard(int _currentSelect)
 {
 	CustomConsole.GotoXY(_boradX, _boradY - 1);
 	CustomConsole.SetTextColor(WHITE);
-	cout << "忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖";
+	cout << "忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖 ";
 	CustomConsole.GotoXY(_boradX, _boradY);
-	cout << "弛                                                                                                                      弛";
+	cout << "弛                                                                                                                      弛 ";
 	CustomConsole.GotoXY(_boradX, _boradY + 1);
-	cout << "弛                                                                                                                      弛";
+	cout << "弛                                                                                                                      弛 ";
 	CustomConsole.GotoXY(_boradX, _boradY + 2);
-	cout << "弛                                                                                                                      弛";
+	cout << "弛                                                                                                                      弛 ";
 	CustomConsole.GotoXY(_boradX, _boradY + 3);
-	cout << "弛                                                                                                                      弛";
+	cout << "弛                                                                                                                      弛 ";
 	CustomConsole.GotoXY(_boradX, _boradY + 4);
-	cout << "弛                                                                                                                      弛";
+	cout << "弛                                                                                                                      弛 ";
 	CustomConsole.GotoXY(_boradX, _boradY + 5);
-	cout << "弛                                                                                                                      弛";
+	cout << "弛                                                                                                                      弛 ";
 	CustomConsole.GotoXY(_boradX, _boradY + 6);
-	cout << "弛                                                                                                                      弛";
+	cout << "弛                                                                                                                      弛 ";
 	CustomConsole.GotoXY(_boradX, _boradY + 7);
-	cout << "弛                                                                                                                      弛";
+	cout << "弛                                                                                                                      弛 ";
 	CustomConsole.GotoXY(_boradX, _boradY + 8);
-	cout << "戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎";
+	cout << "戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎 ";
 
 	if (_currentSelect == 0)
 	{

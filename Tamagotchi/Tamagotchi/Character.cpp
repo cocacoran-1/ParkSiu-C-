@@ -55,11 +55,11 @@ void Character::Update(int deltaTime, char inputKey)
 		case 2:
 			CustomConsole.ClearArea(_x + 28, _y + 1, _x + 60, _y + 1);
 			CustomConsole.GotoXY(_x + 30, _y + 1);
-			if (_activityGauge > 100)
+			if (_activityGauge >= 100)
 			{
 				cout << "아직 자고 싶지 않아...";
 			}
-			else if (_foodGauge < 0)
+			else if (_foodGauge <= 0)
 			{
 				cout << "배고파...";
 			}
@@ -71,11 +71,11 @@ void Character::Update(int deltaTime, char inputKey)
 		case 3:
 			CustomConsole.ClearArea(_x + 28, _y + 1, _x + 60, _y + 1);
 			CustomConsole.GotoXY(_x + 30, _y + 1);
-			if (_activityGauge < 0)
+			if (_activityGauge <= 0)
 			{
 				cout << "피곤해...";
 			}
-			else if (_foodGauge < 0)
+			else if (_foodGauge <= 0)
 			{
 				cout << "배고파...";
 			}
@@ -1643,7 +1643,7 @@ void Character::Erase()
 
 	if (_showTextTime == 5)
 	{
-		CustomConsole.ClearArea(_textX + 5, _textY - 7, _textX + 55, _textY - 7);
+		
 		CustomConsole.ClearArea(_x + 30, _y - 5, _x + 44, _y - 2);
 		_showTextTime = 0;
 	}
@@ -1652,6 +1652,7 @@ void Character::Erase()
 void Character::EatFood(int index)
 {
 	_foodGauge += 20;
+	
 	_textType = index;
 	if (_foodGauge > 100)
 	{
@@ -1714,14 +1715,14 @@ void Character::Status()
 {
 	CustomConsole.ClearArea(2, 1, 15, 5);
 	CustomConsole.SetCursor(tvision::CURSOR_OFF);
-	CustomConsole.GotoXY(1, 1); cout << "┌────────────────────┐";
-	CustomConsole.GotoXY(1, 2); cout << "│                    │";
-	CustomConsole.GotoXY(1, 3); cout << "│                    │";
-	CustomConsole.GotoXY(1, 4); cout << "│                    │";
-	CustomConsole.GotoXY(1, 5); cout << "│                    │";
-	CustomConsole.GotoXY(1, 6); cout << "│                    │";
-	CustomConsole.GotoXY(1, 7); cout << "│                    │";
-	CustomConsole.GotoXY(1, 8); cout << "└────────────────────┘";
+	CustomConsole.GotoXY(1, 1); cout << "┌────────────────────┐ ";
+	CustomConsole.GotoXY(1, 2); cout << "│                    │ ";
+	CustomConsole.GotoXY(1, 3); cout << "│                    │ ";
+	CustomConsole.GotoXY(1, 4); cout << "│                    │ ";
+	CustomConsole.GotoXY(1, 5); cout << "│                    │ ";
+	CustomConsole.GotoXY(1, 6); cout << "│                    │ ";
+	CustomConsole.GotoXY(1, 7); cout << "│                    │ ";
+	CustomConsole.GotoXY(1, 8); cout << "└────────────────────┘ ";
 	CustomConsole.GotoXY(3, 2); cout << "레벨 : " << _level + 1;
 	CustomConsole.GotoXY(3, 4); cout << "행복도 : " << _happinessGauge;
 	CustomConsole.GotoXY(3, 5); cout << "포만감 : " << _foodGauge;
