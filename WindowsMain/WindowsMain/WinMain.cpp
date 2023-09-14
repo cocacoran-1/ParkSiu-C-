@@ -110,7 +110,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		rc[i].bottom = rc[i].top + 230;
 		_xLine++;
 
-		cout << "rc[" << i << "].left : " << rc[i].left << endl;
 	}
 	switch (message)
 	{
@@ -134,7 +133,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// W => 와이드 캐릭터 약자 (유니코드)
 		
 		// 박스에 번호, 구구단 그리기
-		MultipleTable(index, hdc, &rc[index]);
+		MultipleTable(index, hdc, rc);
 
 		EndPaint(hWnd, &ps);
 		break;
@@ -180,14 +179,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void MultipleTable(int index, HDC hdc, RECT rc[])
 {
 	int setNum = 1;
-
 	// 박스 중앙에 숫자 출력
-	for (int i = index; i < 9; i++)
+	for (int i = 0; i < 9; i++)
 	{
-		int xPos = (rc[i].left + rc[i].right) / 2;
-		int yPos = (rc[i].top + rc[i].bottom) / 2;
-		string multipeLine = to_string(setNum);
-		TextOutA(hdc, xPos, yPos, multipeLine.c_str(), multipeLine.size());
+		if (i != index - 1)
+		{
+			int xPos = (rc[i].left + rc[i].right) / 2;
+			int yPos = (rc[i].top + rc[i].bottom) / 2;
+			string multipeLine = to_string(setNum);
+			TextOutA(hdc, xPos, yPos, multipeLine.c_str(), multipeLine.size());
+			
+		}
 		setNum++;
 	}
 	// 박스 안에 구구단 출력
@@ -197,12 +199,11 @@ void MultipleTable(int index, HDC hdc, RECT rc[])
 	{
 		for (int i = 0; i < 9; i++)
 		{
-			cout << "AAAA :" << num1 << endl;
 			string str = to_string(num1) + " X " + to_string(num2) + " = " + to_string(num1 * num2);
-			TextOutA(hdc, rc[num1].left + 85, rc[num1].top + num2 * 21, str.c_str(), str.size());
+			TextOutA(hdc, (rc[num1-1].left + 85),(rc[num1-1].top + num2 * 21), str.c_str(), str.size());
 			num2++;
+
 		}
-		
 	}
 	
 }
