@@ -188,7 +188,6 @@ void MultipleTable(int index, HDC hdc, RECT rc[])
 			int yPos = (rc[i].top + rc[i].bottom) / 2;
 			string multipeLine = to_string(setNum);
 			TextOutA(hdc, xPos, yPos, multipeLine.c_str(), multipeLine.size());
-			
 		}
 		setNum++;
 	}
