@@ -90,9 +90,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpszCmd
 int index = 0;
 vector<RECT>rcVec;
 
-CenterRect mainRect;
-CenterRect subRect;
-
+CenterRect BigRect1;
+CenterRect BigRect2;
+CenterRect SmallRect;
+bool inRect1 = true;
 POINT goalPoint = { -1, -1 };
 
 
@@ -106,8 +107,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 		srand(time(NULL));
 		SetTimer(hWnd, 0, 1000 / 60, (TIMERPROC)NULL);
-		mainRect = Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, 200, 200);
-		subRect = Rect::MakeCenterRect(50, 50, 100, 100);
+		BigRect1 = Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, 200, 200);
+		BigRect2 = Rect::MakeCenterRect(350, 500, 200, 200);
+		SmallRect = Rect::MakeCenterRect(WIN_SIZE_WIDTH / 2, WIN_SIZE_HEIGHT / 2, 50, 50);
 
 		break;
 
@@ -119,7 +121,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case 0:
 
 
-			if (false == (goalPoint.x == -1 && goalPoint.y == -1))
+			/*if (false == (goalPoint.x == -1 && goalPoint.y == -1))
 			{
 				if (goalPoint.x < subRect.x)
 				{
@@ -162,7 +164,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 						mainRect.y += movePoint;
 					}
 				}
-			}
+			}*/
 
 			RECT rc;
 			GetClientRect(_hWnd, &rc);
@@ -176,35 +178,104 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 	{
 		int speed = 10;
+		
+
 		switch (wParam)
 		{
 		case VK_UP:
-			subRect.y -= speed;
-			if (Collision::RectInRect(mainRect, subRect))
+			SmallRect.y -= speed;
+			// 큰상자 1에서 작은 상자가 나갈 때
+			if (Collision::RectOut(BigRect1, SmallRect))
 			{
-				mainRect.y -= speed;
+				// 큰상자1 안에 작은 상자가 있을 때
+				if (inRect1)
+				{
+					BigRect1.y -= speed;
+				}
 			}
+
+			// 큰상자2와 작은상자가 충돌
+			if (Collision::RectInRect(BigRect2, SmallRect))
+			{
+				// 큰상자1 안에 작은상자가 있을 때
+				if (inRect1)
+				{
+					SmallRect.y -= 60;
+					inRect1 = false;
+				}
+			}
+
+			// 큰상자와 큰상자가 충돌 했을 때
+			if (Collision::RectInRect(BigRect1, BigRect2))
+			{
+				if (inRect1)
+				{
+					BigRect2.y -= speed;
+				}
+				else
+				{
+					BigRect1.y -= speed;
+				}
+			}
+
+			
 			break;
 		case VK_LEFT:
-			subRect.x -= speed;
-			if (Collision::RectInRect(mainRect, subRect))
+			SmallRect.x -= speed;
+			if (Collision::RectOut(BigRect1, SmallRect))
 			{
-				mainRect.x -= speed;
+				BigRect1.x -= speed;
 			}
+
+			if (Collision::RectInRect(BigRect2, SmallRect))
+			{
+				SmallRect.x = BigRect2.x;
+				SmallRect.y = BigRect2.y;
+			}
+
+			if (Collision::RectInRect(BigRect1, BigRect2))
+			{
+				BigRect2.x -= speed;
+			}
+
 			break;
 		case VK_RIGHT:
-			subRect.x += speed;
-			if (Collision::RectInRect(mainRect, subRect))
+			SmallRect.x += speed;
+			if (Collision::RectOut(BigRect1, SmallRect))
 			{
-				mainRect.x += speed;
+				BigRect1.x += speed;
 			}
+
+			if (Collision::RectInRect(BigRect2, SmallRect))
+			{
+				SmallRect.x = BigRect2.x;
+				SmallRect.y = BigRect2.y;
+			}
+
+			if (Collision::RectInRect(BigRect1, BigRect2))
+			{
+				BigRect2.x += speed;
+			}
+		
 			break;
 		case VK_DOWN:
-			subRect.y += speed;
-			if (Collision::RectInRect(mainRect, subRect))
+			SmallRect.y += speed;
+			if (Collision::RectOut(BigRect1, SmallRect))
 			{
-				mainRect.y += speed;
+				BigRect1.y += speed;
 			}
+
+			if (Collision::RectInRect(BigRect2, SmallRect))
+			{
+				SmallRect.x = BigRect2.x;
+				SmallRect.y = BigRect2.y;
+			}
+
+			if (Collision::RectInRect(BigRect1, BigRect2))
+			{
+				BigRect1.y += speed;
+			}
+
 			break;
 		default:
 			break;
@@ -217,8 +288,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		HDC hdc = BeginPaint(hWnd, &ps);
 
 
-		Draw::Rectangle(hdc, mainRect);
-		Draw::Rectangle(hdc, subRect);
+		Draw::Rectangle(hdc, BigRect1);
+		Draw::Rectangle(hdc, BigRect2);
+		Draw::Rectangle(hdc, SmallRect);
 
 		EndPaint(hWnd, &ps);
 		break;
@@ -227,7 +299,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		goalPoint = _mousePos;
 
-		if (Collision::PtInRect(mainRect, _mousePos))
+		if (Collision::PtInRect(BigRect1, _mousePos))
 		{
 			cout << "충돌 되었다" << endl;
 		}
@@ -237,7 +309,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_RBUTTONDOWN:
 	{
 
-		if (Collision::RectInRect(mainRect, subRect))
+		if (Collision::RectInRect(BigRect1, SmallRect))
 		{
 			cout << "충돌했다" << endl;
 		}
