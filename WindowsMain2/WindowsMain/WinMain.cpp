@@ -119,53 +119,188 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case 0:
-
-
-			/*if (false == (goalPoint.x == -1 && goalPoint.y == -1))
+			if (false == (goalPoint.x == -1 && goalPoint.y == -1))
 			{
-				if (goalPoint.x < subRect.x)
+				if (goalPoint.x < SmallRect.x)
 				{
-					int gap = subRect.x - goalPoint.x;
+					int gap = SmallRect.x - goalPoint.x;
 					int movePoint = min(gap, 5);
-					subRect.x -= movePoint;
-					if (Collision::RectInRect(mainRect, subRect))
+					SmallRect.x -= movePoint;
+					if (inRect1 && Collision::RectOut(BigRect1, SmallRect))
 					{
-						mainRect.x -= movePoint;
+						BigRect1.x -= movePoint;
+					}
+					else if (!inRect1 && Collision::RectOut(BigRect2, SmallRect))
+					{
+						BigRect2.x -= movePoint;
+					}
+
+					// 큰상자1 안에 작은상자가 있을 때 큰상자2와 작은상자가 충돌
+					if (inRect1 && Collision::RectInRect(BigRect2, SmallRect))
+					{
+						SmallRect.x -= movePoint;
+						SmallRect.x = BigRect2.x;
+						SmallRect.y = BigRect2.y;
+						BigRect2.x -= movePoint;
+						inRect1 = false;
+					}
+					else if (!inRect1 && Collision::RectInRect(BigRect1, SmallRect))
+					{
+						SmallRect.x -= movePoint;
+						SmallRect.x = BigRect1.x;
+						SmallRect.y = BigRect1.y;
+						BigRect1.x -= movePoint;
+						inRect1 = true;
+					}
+					// 큰상자와 큰상자가 충돌 했을 때
+					if (Collision::RectInRect(BigRect1, BigRect2))
+					{
+						if (inRect1)
+						{
+							BigRect2.x -= movePoint;
+						}
+						else
+						{
+							BigRect1.x -= movePoint;
+						}
 					}
 				}
-				else if (goalPoint.x > subRect.x)
+				else if (goalPoint.x > SmallRect.x)
 				{
-					int gap = goalPoint.x - subRect.x;
+					int gap = goalPoint.x - SmallRect.x;
 					int movePoint = min(gap, 5);
-					subRect.x += movePoint;
-					if (Collision::RectInRect(mainRect, subRect))
+					SmallRect.x += movePoint;
+					if (inRect1 && Collision::RectOut(BigRect1, SmallRect))
 					{
-						mainRect.x += movePoint;
+						BigRect1.x += movePoint;
 					}
+					else if (!inRect1 && Collision::RectOut(BigRect2, SmallRect))
+					{
+						BigRect2.x += movePoint;
+					}
+					// 큰상자1 안에 작은상자가 있을 때 큰상자2와 작은상자가 충돌
+					if (inRect1 && Collision::RectInRect(BigRect2, SmallRect))
+					{
+						SmallRect.x += movePoint;
+						SmallRect.x = BigRect2.x;
+						SmallRect.y = BigRect2.y;
+						BigRect2.x += movePoint;
+
+						inRect1 = false;
+					}
+					else if (!inRect1 && Collision::RectInRect(BigRect1, SmallRect))
+					{
+						SmallRect.x += movePoint;
+						SmallRect.x = BigRect1.x;
+						SmallRect.y = BigRect1.y;
+						BigRect1.x += movePoint;
+						inRect1 = true;
+					}
+					// 큰상자와 큰상자가 충돌 했을 때
+					if (Collision::RectInRect(BigRect1, BigRect2))
+					{
+						if (inRect1)
+						{
+							BigRect2.x += movePoint;
+						}
+						else
+						{
+							BigRect1.x += movePoint;
+						}
+					}	
 				}
 
-				if (goalPoint.y < subRect.y)
+				if (goalPoint.y < SmallRect.y)
 				{
-					int gap = subRect.y - goalPoint.y;
+					int gap = SmallRect.y - goalPoint.y;
 					int movePoint = min(gap, 5);
-					subRect.y -= movePoint;
-					if (Collision::RectInRect(mainRect, subRect))
+					SmallRect.y -= movePoint;
+					if (inRect1 && Collision::RectOut(BigRect1, SmallRect))
 					{
-						mainRect.y -= movePoint;
+						BigRect1.y -= movePoint;
 					}
-				}
-				else if (goalPoint.y > subRect.y)
-				{
-					int gap = goalPoint.y - subRect.y;
-					int movePoint = min(gap, 5);
-					subRect.y += movePoint;
-					if (Collision::RectInRect(mainRect, subRect))
+					else if (!inRect1 && Collision::RectOut(BigRect2, SmallRect))
 					{
-						mainRect.y += movePoint;
+						BigRect2.y -= movePoint;
 					}
-				}
-			}*/
+					// 큰상자1 안에 작은상자가 있을 때 큰상자2와 작은상자가 충돌
+					if (inRect1 && Collision::RectInRect(BigRect2, SmallRect))
+					{
+						SmallRect.y -= movePoint;
+						SmallRect.x = BigRect2.x;
+						SmallRect.y = BigRect2.y;
+						BigRect2.y -= movePoint;
 
+						inRect1 = false;
+					}
+					else if (!inRect1 && Collision::RectInRect(BigRect1, SmallRect))
+					{
+						SmallRect.y -= movePoint;
+						SmallRect.x = BigRect1.x;
+						SmallRect.y = BigRect1.y;
+						BigRect1.y -= movePoint;
+
+						inRect1 = true;
+					}
+					// 큰상자와 큰상자가 충돌 했을 때
+					if (Collision::RectInRect(BigRect1, BigRect2))
+					{
+						if (inRect1)
+						{
+							BigRect2.y -= movePoint;
+						}
+						else
+						{
+							BigRect1.y -= movePoint;
+						}
+					}
+				}
+				else if (goalPoint.y > SmallRect.y)
+				{
+					int gap = goalPoint.y - SmallRect.y;
+					int movePoint = min(gap, 5);
+					SmallRect.y += movePoint;
+					if (inRect1 && Collision::RectOut(BigRect1, SmallRect))
+					{
+						BigRect1.y += movePoint;
+					}
+					else if (!inRect1 && Collision::RectOut(BigRect2, SmallRect))
+					{
+						BigRect2.y += movePoint;
+					}
+					// 큰상자1 안에 작은상자가 있을 때 큰상자2와 작은상자가 충돌
+					if (inRect1 && Collision::RectInRect(BigRect2, SmallRect))
+					{
+						SmallRect.y += movePoint;
+						SmallRect.x = BigRect2.x;
+						SmallRect.y = BigRect2.y;
+						BigRect2.y += movePoint;
+
+						inRect1 = false;
+					}
+					else if (!inRect1 && Collision::RectInRect(BigRect1, SmallRect))
+					{
+						SmallRect.y += movePoint;
+						SmallRect.x = BigRect1.x;
+						SmallRect.y = BigRect1.y;
+						BigRect1.y += movePoint;
+
+						inRect1 = true;
+					}
+					// 큰상자와 큰상자가 충돌 했을 때
+					if (Collision::RectInRect(BigRect1, BigRect2))
+					{
+						if (inRect1)
+						{
+							BigRect2.y += movePoint;
+						}
+						else
+						{
+							BigRect1.y += movePoint;
+						}
+					}
+				}
+			}
 			RECT rc;
 			GetClientRect(_hWnd, &rc);
 			InvalidateRect(_hWnd, &rc, true);
@@ -178,31 +313,38 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 	{
 		int speed = 10;
-		
+
 
 		switch (wParam)
 		{
 		case VK_UP:
 			SmallRect.y -= speed;
-			// 큰상자 1에서 작은 상자가 나갈 때
-			if (Collision::RectOut(BigRect1, SmallRect))
+			// 큰상자 1 안에서 작은 상자가 나갈 때
+			if (inRect1 && Collision::RectOut(BigRect1, SmallRect))
 			{
-				// 큰상자1 안에 작은 상자가 있을 때
-				if (inRect1)
-				{
-					BigRect1.y -= speed;
-				}
+				BigRect1.y -= speed;
+			}
+			else if (!inRect1 && Collision::RectOut(BigRect2, SmallRect))
+			{
+				BigRect2.y -= speed;
 			}
 
-			// 큰상자2와 작은상자가 충돌
-			if (Collision::RectInRect(BigRect2, SmallRect))
+			// 큰상자1 안에 작은상자가 있을 때 큰상자2와 작은상자가 충돌
+			if (inRect1 && Collision::RectInRect(BigRect2, SmallRect))
 			{
-				// 큰상자1 안에 작은상자가 있을 때
-				if (inRect1)
-				{
-					SmallRect.y -= 60;
-					inRect1 = false;
-				}
+				SmallRect.x = BigRect2.x;
+				SmallRect.y = BigRect2.y;
+				BigRect2.y -= speed;
+
+				inRect1 = false;
+			}
+			else if (!inRect1 && Collision::RectInRect(BigRect1, SmallRect))
+			{
+				SmallRect.x = BigRect1.x;
+				SmallRect.y = BigRect1.y;
+				BigRect1.y -= speed;
+
+				inRect1 = true;
 			}
 
 			// 큰상자와 큰상자가 충돌 했을 때
@@ -218,63 +360,140 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 			}
 
-			
+
 			break;
 		case VK_LEFT:
 			SmallRect.x -= speed;
-			if (Collision::RectOut(BigRect1, SmallRect))
+
+			// 큰상자 1 안에서 작은 상자가 나갈 때
+			if (inRect1 && Collision::RectOut(BigRect1, SmallRect))
 			{
 				BigRect1.x -= speed;
 			}
-
-			if (Collision::RectInRect(BigRect2, SmallRect))
-			{
-				SmallRect.x = BigRect2.x;
-				SmallRect.y = BigRect2.y;
-			}
-
-			if (Collision::RectInRect(BigRect1, BigRect2))
+			else if (!inRect1 && Collision::RectOut(BigRect2, SmallRect))
 			{
 				BigRect2.x -= speed;
 			}
 
+			// 큰상자1 안에 작은상자가 있을 때 큰상자2와 작은상자가 충돌
+			if (inRect1 && Collision::RectInRect(BigRect2, SmallRect))
+			{
+				SmallRect.x = BigRect2.x;
+				SmallRect.y = BigRect2.y;
+				BigRect2.x -= speed;
+
+				inRect1 = false;
+			}
+			else if (!inRect1 && Collision::RectInRect(BigRect1, SmallRect))
+			{
+				SmallRect.x = BigRect1.x;
+				SmallRect.y = BigRect1.y;
+				BigRect1.x -= speed;
+
+				inRect1 = true;
+			}
+
+			// 큰상자와 큰상자가 충돌 했을 때
+			if (Collision::RectInRect(BigRect1, BigRect2))
+			{
+				if (inRect1)
+				{
+					BigRect2.x -= speed;
+				}
+				else
+				{
+					BigRect1.x -= speed;
+				}
+			}
+
+
 			break;
 		case VK_RIGHT:
 			SmallRect.x += speed;
-			if (Collision::RectOut(BigRect1, SmallRect))
+			// 큰상자 1 안에서 작은 상자가 나갈 때
+			if (inRect1 && Collision::RectOut(BigRect1, SmallRect))
 			{
 				BigRect1.x += speed;
 			}
-
-			if (Collision::RectInRect(BigRect2, SmallRect))
-			{
-				SmallRect.x = BigRect2.x;
-				SmallRect.y = BigRect2.y;
-			}
-
-			if (Collision::RectInRect(BigRect1, BigRect2))
+			else if (!inRect1 && Collision::RectOut(BigRect2, SmallRect))
 			{
 				BigRect2.x += speed;
 			}
-		
-			break;
-		case VK_DOWN:
-			SmallRect.y += speed;
-			if (Collision::RectOut(BigRect1, SmallRect))
-			{
-				BigRect1.y += speed;
-			}
 
-			if (Collision::RectInRect(BigRect2, SmallRect))
+			// 큰상자1 안에 작은상자가 있을 때 큰상자2와 작은상자가 충돌
+			if (inRect1 && Collision::RectInRect(BigRect2, SmallRect))
 			{
 				SmallRect.x = BigRect2.x;
 				SmallRect.y = BigRect2.y;
+				BigRect2.x += speed;
+
+				inRect1 = false;
+			}
+			else if (!inRect1 && Collision::RectInRect(BigRect1, SmallRect))
+			{
+				SmallRect.x = BigRect1.x;
+				SmallRect.y = BigRect1.y;
+				BigRect1.x += speed;
+
+				inRect1 = true;
 			}
 
+			// 큰상자와 큰상자가 충돌 했을 때
 			if (Collision::RectInRect(BigRect1, BigRect2))
+			{
+				if (inRect1)
+				{
+					BigRect2.x += speed;
+				}
+				else
+				{
+					BigRect1.x += speed;
+				}
+			}
+			break;
+		case VK_DOWN:
+			SmallRect.y += speed;
+			// 큰상자 1 안에서 작은 상자가 나갈 때
+			if (inRect1 && Collision::RectOut(BigRect1, SmallRect))
 			{
 				BigRect1.y += speed;
 			}
+			else if (!inRect1 && Collision::RectOut(BigRect2, SmallRect))
+			{
+				BigRect2.y += speed;
+			}
+
+			// 큰상자1 안에 작은상자가 있을 때 큰상자2와 작은상자가 충돌
+			if (inRect1 && Collision::RectInRect(BigRect2, SmallRect))
+			{
+				SmallRect.x = BigRect2.x;
+				SmallRect.y = BigRect2.y;
+				BigRect2.y += speed;
+
+				inRect1 = false;
+			}
+			else if (!inRect1 && Collision::RectInRect(BigRect1, SmallRect))
+			{
+				SmallRect.x = BigRect1.x;
+				SmallRect.y = BigRect1.y;
+				BigRect1.y += speed;
+
+				inRect1 = true;
+			}
+
+			// 큰상자와 큰상자가 충돌 했을 때
+			if (Collision::RectInRect(BigRect1, BigRect2))
+			{
+				if (inRect1)
+				{
+					BigRect2.y += speed;
+				}
+				else
+				{
+					BigRect1.y += speed;
+				}
+			}
+
 
 			break;
 		default:
