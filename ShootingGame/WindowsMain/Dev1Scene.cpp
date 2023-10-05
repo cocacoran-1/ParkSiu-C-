@@ -24,6 +24,7 @@ void Dev1Scene::Init()
 			BoxCollider* collider = new BoxCollider();
 			collider->SetCollision(Rect::MakeCenterRect(0, 0, 200, 200));
 			player->AddComponent(collider);
+			player->SetName("Player");
 		}
 		this->SpawnActor(player);
 		_actors.push_back(player);
