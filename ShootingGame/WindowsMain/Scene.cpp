@@ -15,6 +15,7 @@ void Scene::Release()
 {
 }
 
+
 void Scene::SpawnActor(Actor* actor)
 {
 	_actors.push_back(actor);

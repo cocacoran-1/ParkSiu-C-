@@ -5,6 +5,7 @@ class Enemy : public SpriteActor
 
 public:
 	void SetPlayerInfo(CenterRect body,  const WCHAR* spritePath);
+	CenterRect GetCollision() { return _body; }
 public:
 	using Super = SpriteActor;
 public:

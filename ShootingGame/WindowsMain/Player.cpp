@@ -56,6 +56,7 @@ void Player::Update()
 		{
 			Bullet* playerBullet = new Bullet();
 			playerBullet->Init();
+			_bullet.push_back(playerBullet);
 			if (_level < 2)
 			{
 				playerBullet->SetBulletInfo(Vector2(1, 0), 600, Vector2(_body.x, _body.y - _level * 20 + i * 35));
@@ -74,7 +75,8 @@ void Player::Update()
 		{
 			Bullet* playerBullet = new Bullet();
 			playerBullet->Init();
-			
+			_bullet.push_back(playerBullet);
+
 			playerBullet->SetBulletInfo(Vector2(1, 0), 600, Vector2(_body.x + i * 20, _body.y - 50 + ((i % 2) + 1) * 35));
 			GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(playerBullet);
 		}
@@ -93,6 +95,7 @@ void Player::Update()
 
 			Bullet* playerBullet = new Bullet();
 			playerBullet->Init();
+			_bullet.push_back(playerBullet);
 			playerBullet->SetBulletInfo(direction, 600, Vector2(_body.x, _body.y));
 			GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(playerBullet);
 		}
@@ -105,7 +108,11 @@ void Player::Update()
 void Player::Release()
 {
 	Super::Release();
-
+	for (int i = 0; i < _bullet.size(); i++)
+	{
+		_bullet[i]->Release();
+		SAFE_DELETE(_bullet[i]);
+	}
 }
 
 void Player::Move(Vector2 direction)
@@ -120,4 +127,11 @@ void Player::SetPlayerInfo(CenterRect body, float speed, const WCHAR* spritePath
 	_body = body;
 	_speed = speed;
 	this->SetSprite(spritePath, _body);
+}
+
+void Player::RemoveBullet(int index)
+{
+	_bullet[index]->Release();
+	SAFE_DELETE(_bullet[index]);
+	_bullet.erase(_bullet.begin() + index);
 }

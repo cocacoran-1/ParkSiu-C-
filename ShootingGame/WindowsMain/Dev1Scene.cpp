@@ -3,6 +3,9 @@
 #include "SpriteActor.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Bullet.h"
+
+
 
 
 void Dev1Scene::Init()
@@ -19,6 +22,7 @@ void Dev1Scene::Init()
 
 	Enemy* _enemy = new Enemy();
 	_enemy->Init();
+	_enemies.push_back(_enemy);
 	_enemy->SetPlayerInfo(Rect::MakeCenterRect(1050, 300, 500, 275), L"../Resources/Enemy.png");
 	_actors.push_back(_enemy);
 
@@ -40,8 +44,31 @@ void Dev1Scene::Update()
 	{
 		_actors[i]->Update();
 	}
-
+	this->OnCollisionEnemyBullet();
 }
+
+void Dev1Scene::OnCollisionEnemyBullet()
+{
+	for (int i = 0; i < _enemies.size(); i++)
+	{
+		for (int j = 0; j < _player->GetBullet().size(); j++)
+		{
+			CenterRect enemyCollision = _enemies[i]->GetCollision();
+			CenterRect bulletCollision = _player->GetBullet()[i]->GetCollision();
+
+			if (Collision::RectInRect(enemyCollision, bulletCollision))
+			{
+				_enemies[i]->Release();
+				SAFE_DELETE(_enemies[i]);
+
+				_enemies.erase(_enemies.begin() + i);
+				_player->RemoveBullet(j);
+				return;
+			}
+		}
+	}
+}
+
 void Dev1Scene::Release()
 {
 	for (int i = 0; i < _actors.size(); i++)
@@ -49,5 +76,6 @@ void Dev1Scene::Release()
 		_actors[i]->Release();
 		SAFE_DELETE(_actors[i]);
 	}
+	
 	_actors.clear();
 }

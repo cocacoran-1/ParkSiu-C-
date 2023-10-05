@@ -9,6 +9,8 @@ public:
 	void Move();
 public :
 	void SetBulletInfo(Vector2 direction, float speed, Vector2 spawnPos);
+	CenterRect GetCollision() { return _body; }
+	
 public:
 	using Super = SpriteActor;
 public:

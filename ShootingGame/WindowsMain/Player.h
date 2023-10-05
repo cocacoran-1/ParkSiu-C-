@@ -5,11 +5,16 @@ class Player : public SpriteActor
 private:
 	float _speed;
 	int _level;
+	vector<class Bullet*> _bullet;
+
 public:
 	void Move(Vector2 direction);
 
 public:
 	void SetPlayerInfo(CenterRect body, float speed, const WCHAR* spritePath);
+	void RemoveBullet(int index);
+	vector<class Bullet*> GetBullet() { return _bullet; }
+
 public:
 	using Super = SpriteActor;
 public:
