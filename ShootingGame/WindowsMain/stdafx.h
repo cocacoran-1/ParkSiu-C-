@@ -19,6 +19,7 @@
 #include <string>
 #include <vector>
 #include <format>
+#include <unordered_set>
 
 //gdipuls 관련
 #include <gdiplus.h>				//선언
@@ -37,6 +38,7 @@
 #include "KeyManager.h"
 #include "TimeManager.h"
 #include "SceneManager.h"
+#include "CollisionManager.h"
 
 //===========================================
 //    ## 네임스페이스 ##

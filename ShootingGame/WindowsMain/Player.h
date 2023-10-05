@@ -12,8 +12,8 @@ public:
 
 public:
 	void SetPlayerInfo(CenterRect body, float speed, const WCHAR* spritePath);
-	void RemoveBullet(int index);
-	vector<class Bullet*> GetBullet() { return _bullet; }
+	/*void RemoveBullet(int index);
+	vector<class Bullet*> GetBullet() { return _bullet; }*/
 
 public:
 	using Super = SpriteActor;

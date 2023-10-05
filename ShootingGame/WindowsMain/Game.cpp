@@ -24,6 +24,7 @@ void Game::Init()
 	GET_SINGLE(TimeManager)->Init();
 	GET_SINGLE(SceneManager)->Init();
 	GET_SINGLE(KeyManager)->Init();
+	GET_SINGLE(CollisionManager)->Init();
 
 	//---------------------------------------
 	//	## 게임플레이 관련
@@ -38,6 +39,8 @@ void Game::Update()
 	//---------------------------------------
 	GET_SINGLE(TimeManager)->Update();
 	GET_SINGLE(SceneManager)->Update();
+	GET_SINGLE(CollisionManager)->Update();
+
 }
 void Game::Render()
 {

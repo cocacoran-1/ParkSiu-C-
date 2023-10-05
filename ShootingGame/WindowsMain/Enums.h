@@ -8,3 +8,10 @@ enum class SceneType
 	Dev2Scene,
 
 };
+
+enum class ColliderType
+{
+	None,
+	Box,
+	Circle
+};

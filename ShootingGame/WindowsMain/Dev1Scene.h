@@ -11,7 +11,7 @@ private:
 	Player* _player;
 
 public:
-	virtual void OnCollisionEnemyBullet();
+	/*virtual void OnCollisionEnemyBullet();*/
 public:
 	virtual void Init() override;
 	virtual void Render(HDC hdc) override;

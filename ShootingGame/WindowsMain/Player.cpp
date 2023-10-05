@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Scene.h"
 #include "Bullet.h"
-
+#include "BoxCollider.h"
 
 
 void Player::Init()
@@ -15,11 +15,6 @@ void Player::Init()
 void Player::Render(HDC hdc)
 {
 	Super::Render(hdc);
-	if (_sprite)
-	{
-		Gdiplus::Graphics g(hdc);
-		g.DrawImage(_sprite, _body.ToGdiRect());
-	}
 }
 void Player::Update()
 {
@@ -60,12 +55,23 @@ void Player::Update()
 			if (_level < 2)
 			{
 				playerBullet->SetBulletInfo(Vector2(1, 0), 600, Vector2(_body.x, _body.y - _level * 20 + i * 35));
+				{
+					BoxCollider* collider = new BoxCollider();
+					collider->SetCollision(Rect::MakeCenterRect(0, 0, 200, 200));
+					playerBullet->AddComponent(collider);
+				}
 			}
 			else
 			{
 				int x = (i % 2) * 25;
 				playerBullet->SetBulletInfo(Vector2(1, 0), 600, Vector2(_body.x + x, _body.y - _level * 20 + i * 35));
+				{
+					BoxCollider* collider = new BoxCollider();
+					collider->SetCollision(Rect::MakeCenterRect(0, 0, 200, 200));
+					playerBullet->AddComponent(collider);
+				}
 			}
+
 			GET_SINGLE(SceneManager)->GetCurrentScene()->SpawnActor(playerBullet);
 		}
 	}
@@ -129,9 +135,9 @@ void Player::SetPlayerInfo(CenterRect body, float speed, const WCHAR* spritePath
 	this->SetSprite(spritePath, _body);
 }
 
-void Player::RemoveBullet(int index)
-{
-	_bullet[index]->Release();
-	SAFE_DELETE(_bullet[index]);
-	_bullet.erase(_bullet.begin() + index);
-}
+//void Player::RemoveBullet(int index)
+//{
+//	_bullet[index]->Release();
+//	SAFE_DELETE(_bullet[index]);
+//	_bullet.erase(_bullet.begin() + index);
+//}

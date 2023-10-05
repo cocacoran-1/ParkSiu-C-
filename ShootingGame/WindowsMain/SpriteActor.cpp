@@ -8,12 +8,23 @@ void SpriteActor::Init()
 }
 void SpriteActor::Render(HDC hdc)  
 {
-	Super::Render(hdc);
+	static Gdiplus::Graphics* g = nullptr;
+	static HDC lastHdc = {};
+
+	if (lastHdc != hdc)
+	{
+		SAFE_DELETE(g);
+		g = new Gdiplus::Graphics(hdc);
+		g->SetInterpolationMode(Gdiplus::InterpolationModeNearestNeighbor);
+		lastHdc = hdc;
+	}
 	if (_sprite)
 	{
-		Gdiplus::Graphics g(hdc);
-		g.DrawImage(_sprite, _body.ToGdiRect());
+		
+		g->DrawImage(_sprite, _body.ToGdiRect());
 	}
+	Super::Render(hdc);
+
 }
 void SpriteActor::Update()  
 {
